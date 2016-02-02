@@ -23,15 +23,21 @@ body
 
 nav 
 {
-   margin:0;
-   padding:0;
+   display:flex;
+   
    background-color :  #ffcc80;
-   border: 1px solid black;	
+   border: 1px solid black;
 }
 
 nav li
 {
    display:inline;
+   margin :auto;
+}
+
+nav li:hover
+{
+   color:white;
 }
 
 #corps
@@ -54,7 +60,8 @@ nav li
 
 .joueur
 {
-    margin:auto;
+    text-align:center;
+	margin-top:10px;
 }
 
 #labyrinthe
