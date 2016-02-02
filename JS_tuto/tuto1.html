@@ -16,22 +16,93 @@
 <li><a=href="" > RUN GAME</li>
 <li><a=href="" > SEARCH GAME</li> 
 <li><a=href="" > RANK</li> 
+<li><button type="button" onclick="draw(0,0)">GENERATEUR</button></li>
 <nav>
 </header>
 
 <div id="scoreJoueur">
     <div class="joueur">Joueur 1
 	<br> Minute - Classement
+	<hr color="yellow">
 	</div>
 	<div class="joueur">Joueur 2
 	<br> Minute - Classement
+	<hr color="yellow">
 	</div>
 </div>
 
-<div id="labyrinthe">
-<p> Le lieu du labyrinthe
-</div>
+<canvas onclick="onclick_page(event)"; id="canvas">Votre navigateur ne supporte pas HTML5, veuillez le mettre à jour pour jouer.</canvas>
+<script type="application/x-javascript">
+var compteurL = 0;
+var compteurC = 0;
+function draw(I,J) {
+ var canvas = document.getElementById("canvas");
+ var ctx = canvas.getContext("2d");
+ for(var i=0;i<60;i++)
+ {
+ for(var j=0;j<50;j++)
+ {
+ ctx.fillStyle = "rgb(64,191,64)";
+ ctx.fillRect (5*i, 3*j, 4, 2);
+ }
+}
+for(var i=0;i<2;i++)
+{
+for(var j=0;j<2;j++)
+{
+   ctx.fillStyle = "rgb(0,0,0)";
+   ctx.fillRect (5*(I+i), 3*(J+j), 4, 2);
+}
+}
+}
 
+document.onkeyup=function (e)
+{
+    e=e || window.event;
+    var code=e.keyCode || e.wihch;
+    if(code == 39)
+	{
+	compteurC++;
+	}
+	if(code == 38)
+	{
+	compteurL--;
+	}
+	if(code == 40)
+	{
+	 compteurL++;
+	}
+	if(code == 37)
+	{
+	 compteurC--;
+	}
+	draw(compteurC,compteurL);
+	if(compteurC == 58 && compteurL==48)
+	{
+	   var canvas = document.getElementById("canvas");
+       var ctx = canvas.getContext("2d"); 
+	   for(var i=0;i<60;i++)
+	   {
+	    ctx.fillStyle = "rgb(100,100,100)";
+        ctx.fillRect (140,3*i, 4, 2);
+		ctx.fillRect (145,3*i, 4, 2);
+	   }
+	  
+	}
+}
+
+function onclick_page(event)
+{
+  var x = Math.round((event.clientX-585)/796*49);
+  var y = Math.round((event.clientY-158)/750*59);
+ // alert('Vous avez cliqué au point de coordonnés: ' + x + ', ' + y );
+  var canvas = document.getElementById("canvas");
+  var ctx = canvas.getContext("2d");
+  ctx.fillStyle = "rgb(0,0,0)";
+  ctx.fillRect (5*x,3*y, 4, 2);
+}
+
+ </script>
 
 
 </body>

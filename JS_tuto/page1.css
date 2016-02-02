@@ -51,11 +51,13 @@ nav li:hover
 {
    display:inline-block;
    float:left;
+   margin-left : 350px;
    margin-right:25px;
    margin-top:20px;
    border: 1px solid black;
    width: 200px;
    height: 750px;
+   background-color : #49c83c;
 }
 
 .joueur
@@ -73,5 +75,13 @@ nav li:hover
   margin-left : 300px;
   width : 800px;
   height : 800px;
+}
+
+canvas
+{ 
+  margin-top : 20px;
+  width : 800px;
+  height : 750px;
+  border:1px solid black;
 }
 
