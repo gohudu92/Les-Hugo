@@ -1,0 +1,70 @@
+p:hover
+{
+   color:blue;
+}
+
+.titre
+{
+  color:red;
+}
+
+body
+{
+ background-color : #c2d1f0;
+ color : #1e3c7b;
+}
+
+
+#logo
+{
+   text-align:center;
+}
+
+
+nav 
+{
+   margin:0;
+   padding:0;
+   background-color :  #ffcc80;
+   border: 1px solid black;	
+}
+
+nav li
+{
+   display:inline;
+}
+
+#corps
+{
+   margin:0 auto;
+   width:800px;
+}
+
+
+#scoreJoueur
+{
+   display:inline-block;
+   float:left;
+   margin-right:25px;
+   margin-top:20px;
+   border: 1px solid black;
+   width: 200px;
+   height: 750px;
+}
+
+.joueur
+{
+    margin:auto;
+}
+
+#labyrinthe
+{
+  display:inline-block;
+  margin-top: 20px;
+  margin-bottom : 40px;
+  border: 1px solid black;
+  margin-left : 300px;
+  width : 800px;
+  height : 800px;
+}
+

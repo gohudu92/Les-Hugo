@@ -1,0 +1,16 @@
+ body
+ {
+    background-color: #66b2ff;
+ }
+ 
+ #bloc_page
+ {
+  width:900px;
+  margin:auto;
+ }
+ 
+ 
+ #logo 
+{
+  position:absolute;
+}
