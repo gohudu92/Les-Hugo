@@ -1,1 +1,1 @@
-03-02/HPE Ajout du README 
+03-02/HPE Ajout du README, reprise du dossier JS_tuto pour les pages, ajout des règles sur la page d'accueil

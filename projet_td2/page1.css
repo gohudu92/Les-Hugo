@@ -1,0 +1,92 @@
+p:hover
+{
+   color:blue;
+}
+
+p1:hover
+{
+  color:black;
+}
+
+.titre
+{
+  color:red;
+}
+
+body
+{
+ background-color : #c2d1f0;
+ color : #1e3c7b;
+}
+
+
+#logo
+{
+   text-align:center;
+}
+
+
+nav 
+{
+   display:flex;
+   
+   background-color :  #ffcc80;
+   border: 1px solid black;
+}
+
+nav li
+{
+   display:inline;
+   margin :auto;
+}
+
+nav li:hover
+{
+   color:white;
+}
+
+#corps
+{
+   margin:0 auto;
+   width:800px;
+}
+
+
+#scoreJoueur
+{
+   display:inline-block;
+   float:left;
+   margin-left : 350px;
+   margin-right:25px;
+   margin-top:20px;
+   border: 1px solid black;
+   width: 200px;
+   height: 750px;
+   background-color : #49c83c;
+}
+
+.joueur
+{
+    text-align:center;
+	margin-top:10px;
+}
+
+#labyrinthe
+{
+  display:inline-block;
+  margin-top: 20px;
+  margin-bottom : 40px;
+  border: 1px solid black;
+  margin-left : 300px;
+  width : 800px;
+  height : 800px;
+}
+
+canvas
+{ 
+  margin-top : 20px;
+  width : 800px;
+  height : 750px;
+  border:1px solid black;
+}
+
