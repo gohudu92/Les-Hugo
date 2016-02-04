@@ -14,13 +14,14 @@
 <nav>
 <li><a href="page_accueil.html" title="ACCUEIL"> ACCUEIL</a></li>
 <li><a href="page_creer_partie.html" title="RUN GAME"> RUN GAME</a></li>
+<li><button type="button" onclick="travaux()">GENERATEUR</button></li>
 <li><a href="page_rejoindre_partie.html" title="SEARCH GAME"> SEARCH GAME</a></li> 
 <li><a href="page_rank.html" title="RANK"> RANK</a></li> 
 <!--<li><button type="button" onclick="draw(0,0)">GENERATEUR</button></li>-->
 <nav>
 </header>
 
-<div id="scoreJoueur">
+<div id="scoreJoueur2">
     <div class="joueur">Joueur 1
 	<br> Minute - Classement
 	<hr color="yellow">
@@ -31,7 +32,9 @@
 	</div>
 </div>
 
-<canvas onclick="onclick_page(event)"; id="canvas">Votre navigateur ne supporte pas HTML5, veuillez le mettre à jour pour jouer.</canvas>
+<div id="photo_lab"><img src="img/lab_parfait.PNG" alt="photo lab">
+	</div>
+<!--<canvas onclick="onclick_page(event)"; id="canvas">Votre navigateur ne supporte pas HTML5, veuillez le mettre à jour pour jouer.</canvas>-->
 <script type="application/x-javascript">
 var compteurL = 0;
 var compteurC = 0;
@@ -101,6 +104,12 @@ function onclick_page(event)
   ctx.fillStyle = "rgb(0,0,0)";
   ctx.fillRect (5*x,3*y, 4, 2);
 }
+function travaux()
+{
+	alert("Cette partie est en travaux l'ami !! - retour à l'accueil !");
+	location.href = "page_accueil.html";
+			
+}	
 
  </script>
 

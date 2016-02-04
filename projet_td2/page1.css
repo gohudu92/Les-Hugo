@@ -78,17 +78,55 @@ nav li:hover
    */
 }
 
+TABLE
+{
+  margin-top:150px;
+  font-size: 200%;
+  width:750px ;
+  height: 500px;
+  text-align:center;
+  background-color:   #49c83c; 
+}
+
+
+#principal
+{
+  margin-top: 100px;
+  margin-left: 400px;
+  height: 800px;
+  width: 1000px;
+}
+
 #scoreJoueur
 {
+  display:inline-block;
+
    float:left;
    margin-left : 100px;
-   margin-right:25px;
+   margin-right:20px;
    margin-top:20px;
    border: 1px solid black;
    width: 200px;
    height: 750px;
    background-color : #49c83c;
 }
+
+
+#scoreJoueur2
+{
+  display:inline-block;
+
+   float:left;
+   margin-left : 100px;
+   margin-right: 250px;
+   margin-top:20px;
+   border: 1px solid black;
+   width: 200px;
+   height: 750px;
+   background-color : #49c83c;
+}
+
+
 
 .joueur
 {
@@ -102,9 +140,23 @@ nav li:hover
   margin-top: 20px;
   margin-bottom : 40px;
   border: 1px solid black;
-  margin-left : 300px;
+  margin-left : 750px;
   width : 800px;
   height : 800px;
+}
+
+#photo_lab
+{
+  display:inline-block;
+  margin-top:150px; 
+  margin-left:150px;
+
+}
+
+#photo_lab img
+{
+  height: 500px;
+  width: 500px; 
 }
 
 canvas
