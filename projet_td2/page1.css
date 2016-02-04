@@ -58,13 +58,13 @@ nav li:hover
 }
 
 
-#scoreJoueur
+#RANK
 {
    display:inline-block;
    float:left;
-   margin-left : 350px;
+   margin-left : 700px;
    margin-right:25px;
-   margin-top:20px;
+   margin-top:200px;
    border: 1px solid black;
    width: 200px;
    height: 750px;
