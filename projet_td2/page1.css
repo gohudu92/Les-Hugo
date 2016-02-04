@@ -13,6 +13,12 @@ p1:hover
   color:red;
 }
 
+a:hover
+{
+  color:white;
+}
+
+
 body
 {
  background-color : #c2d1f0;
