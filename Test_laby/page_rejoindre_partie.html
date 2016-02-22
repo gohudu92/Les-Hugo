@@ -8,7 +8,7 @@
 
 </head>
 
-<body>
+<body onkeypress="clavier();" onkeydown="clavier();">
 	<div id="logo">
 		<img src="img/logo_top.png" alt="logo top">
 	</div>
@@ -33,7 +33,6 @@
 					<hr color="yellow">
 				</div>
 			</div>
-
 			<script language="JavaScript">
     // variables
      
@@ -58,6 +57,82 @@
          
          
         // bas
+        function clavier(){
+            event.returnValue=false;
+            switch(event.keyCode)
+            {
+                case 40:if(laby[xperso+1][yperso]==b){
+                            laby[xperso][yperso]=b;
+                            laby[xperso+1][yperso]=p;
+                            xperso=xperso+1;
+                        }
+                        else if(laby[xperso][yperso+1]==f)
+                        {
+                            alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+                        }
+                        else
+                        {
+                            laby[xperso+1][yperso]=r
+                        }
+         
+                        afficheLaby();carD -=4; if(carD<0) carD=359; 
+                        break;
+
+                case 37:if(laby[xperso][yperso-1]==b){
+                            laby[xperso][yperso]=b;
+                            laby[xperso][yperso-1]=p;
+                            yperso=yperso-1;
+                        }
+                        else if(laby[xperso][yperso+1]==f)
+                        {
+                            alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+                        }
+                        else
+                        {
+                            laby[xperso][yperso-1]=r
+                        }
+         
+                        afficheLaby(); 
+                        break;
+
+                case 39:if(laby[xperso][yperso+1]==b){
+                            laby[xperso][yperso]=b;
+                            laby[xperso][yperso+1]=p;
+                            yperso=yperso+1;
+                        }
+                        else if(laby[xperso][yperso+1]==f)
+                        {
+                            alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+                        }
+             
+                        else
+                        {
+                            laby[xperso][yperso+1]=r
+                        }
+         
+                        afficheLaby();
+                        break;
+
+                case 38:if(laby[xperso-1][yperso]==b){
+                            laby[xperso][yperso]=b;
+                            laby[xperso-1][yperso]=p;
+                            xperso=xperso-1;
+                        }
+                        else if(laby[xperso][yperso+1]==f)
+                        {
+                            alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+                        }
+                        else
+                        {
+                            laby[xperso-1][yperso]=r
+         
+                        }
+                        afficheLaby();
+                        break;
+                        
+                default:return;
+            }
+        }
         function touchebas()
         {
          
@@ -159,7 +234,7 @@
                     if (laby[i][j]==m)
                     {
                     insertion+="<td>";
-                    insertion+="<img width='52'height='52' src='img/meduse.jpg'>";
+                    insertion+="<img width='52'height='52' src='img/carre_noir.jpg'>";
                     insertion+="</td>";
                     }
                      
@@ -167,7 +242,7 @@
                     if (laby[i][j]==p)
                     {
                     insertion+="<td>";
-                    insertion+="<img width='52' height='52' src='img/poisson.jpg'>";
+                    insertion+="<img width='52' height='52' src='img/croix.jpg'>";
                     insertion+="</td>";
                     }
                      
@@ -175,7 +250,7 @@
                     if (laby[i][j]==b)
                     {
                     insertion+="<td>";
-                    insertion+="<img width='52' height='52' src='img/bulles.jpg'>";
+                    insertion+="<img width='52' height='52' src='img/carre_blanc.jpg'>";
                     insertion+="</td>";
                     }
                      
@@ -202,6 +277,24 @@
             insertion+="</table>";
             leLaby.innerHTML=insertion;
         }
+         
+
+        
+        /*var x = event.keyCode;
+        if (x == 39) {  
+            touchedroite();
+        }
+        else if (x == 38) {
+            touchehaut();
+        }
+        else if (x == 37) {
+            touchegauche();
+        }
+        else if (x == 40) {
+            touchebas();
+        }*/
+        
+        
          
     </script>
 
