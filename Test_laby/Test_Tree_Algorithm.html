@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title> Projet Labyrinthe </title>
+</head>
+<body>
+				<script language="JavaScript">
+    // variables
+     	function getRandomArbitrary(min, max) 
+     	{
+  			return Math.random() * (max - min) + min;
+		}
+		
+		function getRandomX()
+		{
+			var x = getRandomArbitrary(1,8)
+			return x
+		}
+
+		function getRandomY()
+		{
+			var y = getRandomArbitrary(1,8)
+			return y
+		}
+
+
+
+
+        m='#';
+        p='P';
+        b=' ';
+        r='r';
+        f="F";
+        xperso=1;
+        yperso=1;
+        var ligne1 = new Array()
+        var ligne2 = new Array()
+        var laby = new Array(ligne1,ligne2)
+        
+        for (i = 0; i < 9; i++)
+        	for (j = 0; i < 9; j++)
+        	{
+        		laby[i,j] = m;
+        		/*if (i == 0)
+        			laby[i,j] = m
+        		if (i == 8)
+        			laby[i,j] = m
+        		if (j == 0)
+        			laby[i,j] = m
+        		if (j == 8)
+        			laby[i,j] = m*/
+        	}
+
+        
+
+        /*for(var i = 0; i < 9; i++)
+        	laby[8,i] = m;
+
+        for(var i = 0; i < 9; i++)
+        	laby[i,0] = m;
+
+        for(var i = 0; i < 9; i++)
+        	laby[i,8] = m;*/
+
+
+
+
+
+        //tableau à double entrée représentant un labyrinthe
+        	/*laby = [[m,m,m,m,m,m,m,m,m,m],
+                    [m,p,m,b,b,b,b,b,b,m],
+                    [m,b,m,b,m,m,m,b,m,m],
+                    [m,b,m,b,m,b,m,b,b,m],
+                    [m,b,b,b,m,b,m,m,b,m],
+                    [m,b,m,b,m,b,b,b,b,f],
+                    [m,m,m,m,m,m,m,m,m,m]];*/
+     
+         
+            // i= 6  et j=9  = fin = f
+         
+         
+        // bas
+        function clavier(){
+            event.returnValue=false;
+            switch(event.keyCode)
+            {
+                case 40:if(laby[xperso+1][yperso]==b){
+                            laby[xperso][yperso]=b;
+                            laby[xperso+1][yperso]=p;
+                            xperso=xperso+1;
+                        }
+                        else if(laby[xperso][yperso+1]==f)
+                        {
+                            alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+                        }
+                        else
+                        {
+                            laby[xperso+1][yperso]=r
+                        }
+         
+                        afficheLaby();carD -=4; if(carD<0) carD=359; 
+                        break;
+
+                case 37:if(laby[xperso][yperso-1]==b){
+                            laby[xperso][yperso]=b;
+                            laby[xperso][yperso-1]=p;
+                            yperso=yperso-1;
+                        }
+                        else if(laby[xperso][yperso+1]==f)
+                        {
+                            alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+                        }
+                        else
+                        {
+                            laby[xperso][yperso-1]=r
+                        }
+         
+                        afficheLaby(); 
+                        break;
+
+                case 39:if(laby[xperso][yperso+1]==b){
+                            laby[xperso][yperso]=b;
+                            laby[xperso][yperso+1]=p;
+                            yperso=yperso+1;
+                        }
+                        else if(laby[xperso][yperso+1]==f)
+                        {
+                            alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+                        }
+             
+                        else
+                        {
+                            laby[xperso][yperso+1]=r
+                        }
+         
+                        afficheLaby();
+                        break;
+
+                case 38:if(laby[xperso-1][yperso]==b){
+                            laby[xperso][yperso]=b;
+                            laby[xperso-1][yperso]=p;
+                            xperso=xperso-1;
+                        }
+                        else if(laby[xperso][yperso+1]==f)
+                        {
+                            alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+                        }
+                        else
+                        {
+                            laby[xperso-1][yperso]=r
+         
+                        }
+                        afficheLaby();
+                        break;
+                        
+                default:return;
+            }
+        }
+        function touchebas()
+        {
+         
+            if(laby[xperso+1][yperso]==b){
+            laby[xperso][yperso]=b;
+            laby[xperso+1][yperso]=p;
+            xperso=xperso+1;
+            }
+            else if(laby[xperso][yperso+1]==f)
+            {
+                alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+            }
+            else
+            {
+            laby[xperso+1][yperso]=r
+            }
+         
+            afficheLaby();
+        }
+         
+        // haut
+        function touchehaut()
+        {
+         
+            if(laby[xperso-1][yperso]==b){
+            laby[xperso][yperso]=b;
+            laby[xperso-1][yperso]=p;
+            xperso=xperso-1;
+            }
+            else if(laby[xperso][yperso+1]==f)
+            {
+                alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+            }
+            else
+            {
+            laby[xperso-1][yperso]=r
+         
+        }
+            afficheLaby();
+        }
+         
+        // gauche
+        function touchegauche()
+        {
+         
+            if(laby[xperso][yperso-1]==b){
+            laby[xperso][yperso]=b;
+            laby[xperso][yperso-1]=p;
+            yperso=yperso-1;
+            }
+             else if(laby[xperso][yperso+1]==f)
+            {
+                alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+            }
+        else
+            {
+            laby[xperso][yperso-1]=r
+            }
+         
+            afficheLaby();
+        }
+         
+        //droite
+        function touchedroite()
+        {
+         
+            if(laby[xperso][yperso+1]==b){
+            laby[xperso][yperso]=b;
+            laby[xperso][yperso+1]=p;
+            yperso=yperso+1;
+            }
+            else if(laby[xperso][yperso+1]==f)
+            {
+                alert('Bravo ! Si vous voulez rejouer, raffraichissez la page !');
+            }
+             
+        else
+            {
+            laby[xperso][yperso+1]=r
+            }
+         
+            afficheLaby();
+        }
+         
+        function afficheLaby()
+        {
+            var leLaby=document.getElementById("laby");
+            insertion="<table border=0 cellspacing=0 cellpadding=0>";
+         
+         
+         
+        // Aspect graphique du jeu
+            for(i=0;i<7;i++)
+            {
+            insertion+="<tr>";
+                for(j=0;j<10;j++)
+                {
+                    // m = mur
+                    if (laby[i][j]==m)
+                    {
+                    insertion+="<td>";
+                    insertion+="<img width='52'height='52' src='img/carre_noir.jpg'>";
+                    insertion+="</td>";
+                    }
+                     
+                    //p= Personnage
+                    if (laby[i][j]==p)
+                    {
+                    insertion+="<td>";
+                    insertion+="<img width='52' height='52' src='img/croix.jpg'>";
+                    insertion+="</td>";
+                    }
+                     
+                    //b= chemin
+                    if (laby[i][j]==b)
+                    {
+                    insertion+="<td>";
+                    insertion+="<img width='52' height='52' src='img/carre_blanc.jpg'>";
+                    insertion+="</td>";
+                    }
+                     
+                    // r= mur touché
+                    if (laby[i][j]==r)
+                    {
+                    insertion+="<td>";
+                    insertion+="<img width='52' height='52'src='img/arrete.jpg'>";
+                    insertion+="</td>";
+                    }
+                     
+                    // f= Fin, arrivée
+                    if (laby[i][j]==f)
+                    {
+                    insertion+="<td>";
+                    insertion+="<img width='52' height='52'src='img/win.jpg'>";
+                    insertion+="</td>";
+                    }
+             
+                }
+                insertion+="</tr>";
+            }  
+             
+            insertion+="</table>";
+            leLaby.innerHTML=insertion;
+        }
+         
+
+        
+
+        
+        
+         
+    </script>
+
+    <div id="laby">
+ 
+</div>
+
+    <input type="button" value="GO" onclick="afficheLaby();"><br/><BR><BR>
+<!-- Bouttons deplacements -->
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="HAUT" onclick="touchehaut();"> <br>
+<input type="button" value="GAUCHE" onclick="touchegauche();">
+<input type="button" value="DROITE" onclick="touchedroite();"> <br>
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="BAS" onclick="touchebas();"> <br><br>
+ 
+
+</body>
