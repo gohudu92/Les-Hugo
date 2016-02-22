@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title> Projet Labyrinthe </title>
+<link rel="stylesheet" href="page1.css" />
+<script language='javascript'>
+positionFin = '29,29'
+window.status = 'Chargement de la page'
+function départ()
+{
+window.status = 'Création des murs'
+créemur()
+window.status = 'Initiation de la case de départ'
+document.getElementById('0,0').style.backgroundColor = 'C80000'
+document.getElementById('f0,0').color='C80000'
+document.form.positionX.value = 0
+document.form.positionY.value = 0
+window.status = 'Initiation de la case de la fin'
+document.getElementById(positionFin).style.backgroundColor = '0AC814'
+document.getElementById('f'+positionFin).color = '0AC814'
+window.status = ''}
+function move(e)
+{
+y = document.form.positionY.value*1
+x = document.form.positionX.value*1
+if (e == 50 && check(y+1,x))
+{
+afficher(y+1,x)
+}
+if (e == 54 && check(y,x+1))
+{
+afficher(y,x+1)
+}
+if (e == 56 && check(y-1,x))
+{
+afficher(y-1,x)
+}
+if (e == 52 && check(y,x-1))
+{
+afficher(y,x-1)
+}
+}
+function check(Y,X){
+if (document.getElementById(Y+','+X)) return true
+else return false
+}
+function afficher(Y,X)
+{
+effacer(document.form.positionY.value,document.form.positionX.value)
+document.getElementById(Y+','+X).style.backgroundColor = 'C80000'
+document.getElementById('f'+Y+','+X).color='C80000'
+document.form.positionX.value = X
+document.form.positionY.value = Y
+vérifier()
+}
+function effacer(Y,X){
+document.getElementById(Y+','+X).style.backgroundColor = 'FFFFFF'
+document.getElementById('f'+Y+','+X).color = 'FFFFFF'
+}
+function créemur(){
+position = new Array('0,7','0,10','0,18','0,22','1,1','1,2','1,5','1,8','1,10','1,11','1,12','1,15','1,16','1,19','1,21','1,23','1,25','2,1','2,3','2,5','2,9','2,13','2,17','2,20','2,24','2,26','2,28','3,4','3,6','3,11','3,14','3,19','3,21','3,25','4,1','4,6','4,8','4,11','4,14','4,16','4,18','4,20','4,23','4,27','5,1','5,4','5,6','5,9','5,10','5,12','5,15','5,20','5,22','5,24','5,26','6,1','6,3','6,8','6,11','6,13','6,17','6,19','6,23','6,25','6,27','7,1','7,3','7,7','7,9','7,15','7,18','7,20','7,22','7,26','8,2','8,6','8,12','8,14','8,19','8,23','8,29','9,1','9,2','9,4','9,5','9,8','9,11','9,13','9,15','9,17','9,22','9,26','9,28','10,2','10,4','10,6','10,9','10,12','10,18','10,21','10,25','10,27','11,0','11,1','11,5','11,8','11,10','11,11','11,14','11,16','11,20','11,23','11,24','12,0','12,3','12,7','12,13','12,15','12,18','12,19','13,1','13,4','13,10','13,12','13,14','13,18','13,22','13,25','13,28','14,0','14,5','14,7','14,9','14,11','14,17','14,21','14,23','14,27','15,1','15,3','15,6','15,8','15,14','15,18','15,20','15,24','15,26','15,29','16,0','16,4','16,5','16,7','16,9','16,13','16,15','16,17','16,20','16,22','16,25','16,28','17,2','17,3','17,6','17,8','17,10','17,12','17,16','17,19','17,21','17,23','17,27','18,0','18,9','18,11','18,14','18,18','18,24','18,26','19,1','19,3','19,5','19,7','19,10','19,15','19,17','19,20','19,21','19,22','19,27','20,2','20,4','20,6','20,10','20,12','20,14','20,16','20,23','20,24','20,25','20,28','21,2','21,9','21,13','21,18','21,26','22,1','22,4','22,6','22,8','22,11','22,12','22,16','22,17','22,19','22,21','22,25','22,27','22,28','23,3','23,5','23,7','23,9','23,15','23,22','23,24','23,29','24,1','24,4','24,6','24,10','24,12','24,13','24,14','24,17','24,19','24,21','24,23','24,27','25,0','25,3','25,5','25,11','25,15','25,16','25,18','25,20','25,26','26,0','26,5','26,8','26,13','26,14','26,23','26,25','26,28','27,2','27,7','27,9','27,12','27,17','27,19','27,22','27,24','27,27','27,29','28,0','28,3','28,6','28,10','28,14','28,16','28,18','28,20','28,23','28,29','29,1','29,4','29,5','29,8','29,12','29,13','29,15','29,22','29,25','29,27')
+pos = position
+for (i=0;i<position.length;i++)
+{
+pos[i] = pos[i].split(',')
+if (check(pos[i][0],pos[i][1]))
+{
+document.getElementById(position[i]).style.backgroundColor = '000000'
+document.getElementById('f'+position[i]).color = '000000'
+document.getElementById(position[i]).id = ''
+}
+}
+}
+function vérifier()
+{
+if (document.form.positionY.value+','+document.form.positionX.value == positionFin)
+{
+alert('Vous avez gagné !')
+}
+}
+</script>
+</head>
+
+<body onload='départ()' onkeypress='move(event.keyCode)'>
+<div id="logo">
+<img src="img/logo_top.png" alt="logo top">
+</div>
+<header>
+<nav>
+<li><a href="page_accueil.html" title="ACCUEIL"> ACCUEIL</a></li>
+<li><a href="page_creer_partie.html" title="RUN GAME"> RUN GAME</a></li>
+<li><button type="button" onclick="travaux()">GENERATEUR</button></li>
+<li><a href="page_rejoindre_partie.html" title="SEARCH GAME"> SEARCH GAME</a></li> 
+<li><a href="page_rank.html" title="RANK"> RANK</a></li> 
+<!--<li><button type="button" onclick="draw(0,0)">GENERATEUR</button></li>-->
+<nav>
+</header>
+
+<div id="scoreJoueur2">
+    <div class="joueur">Joueur 1
+	<br> Minute - Classement
+	<hr color="yellow">
+	</div>
+	<div class="joueur">Joueur 2
+	<br> Minute - Classement
+	<hr color="yellow">
+	</div>
+</div>
+
+<div><FORM>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<INPUT type='button' value='Haut' onclick='move(56)'><BR><INPUT type='button' value='Gauche' onclick='move(52)'><INPUT type='button' value='Droite' onclick='move(54)'><BR>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<INPUT type='button' value='Bas' onclick='move(50)'></FORM></div>
+
+<!--<div id="photo_lab"><img src="img/lab_parfait.PNG" alt="photo lab">
+	</div>-->
+	<FORM name='form'><INPUT type='hidden' name='hauteur'><INPUT type='hidden' name='largeur'><INPUT type='hidden' name='positionX'><INPUT type='hidden' name='positionY'></FORM><SCRIPT>
+window.status = 'Chargement du labyrinthe'
+hauteur = 30
+largeur = 30
+backgcolor = 'FFFFFF'
+code ="<TABLE border='0'><TR>"
+for (i=0;i<largeur+2;i++)
+{
+code+="<TD bgcolor='000000'></TD>"
+}
+code+="</TR>"
+for (i=0;i<hauteur;i++)
+{
+code +="<TR><TD bgcolor='000000'></TD>"
+for (x=0;x<largeur;x++)
+{
+code +="<TD id='"+i+","+x+"' bgcolor='"+backgcolor+"'><FONT color='"+backgcolor+"' id='f"+i+","+x+"'>***</FONT></TD>"
+}
+code+="<TD bgcolor='000000'></TD></TR>"
+}
+code+="<TR>"
+for (i=0;i<largeur+2;i++)
+{
+code+="<TD bgcolor='000000'></TD>"
+}
+code+="</TR>"
+code+="</TABLE>"
+document.write(code)
+document.form.hauteur.value = hauteur
+document.form.largeur.value = largeur
+</SCRIPT>
+
+<!--<canvas onclick="onclick_page(event)"; id="canvas">Votre navigateur ne supporte pas HTML5, veuillez le mettre à jour pour jouer.</canvas>-->
+<script type="application/x-javascript">
+var compteurL = 0;
+var compteurC = 0;
+function draw(I,J) {
+ var canvas = document.getElementById("canvas");
+ var ctx = canvas.getContext("2d");
+ for(var i=0;i<60;i++)
+ {
+ for(var j=0;j<50;j++)
+ {
+ ctx.fillStyle = "rgb(64,191,64)";
+ ctx.fillRect (5*i, 3*j, 4, 2);
+ }
+}
+for(var i=0;i<2;i++)
+{
+for(var j=0;j<2;j++)
+{
+   ctx.fillStyle = "rgb(0,0,0)";
+   ctx.fillRect (5*(I+i), 3*(J+j), 4, 2);
+}
+}
+}
+
+document.onkeyup=function (e)
+{
+    e=e || window.event;
+    var code=e.keyCode || e.wihch;
+    if(code == 39)
+	{
+	compteurC++;
+	}
+	if(code == 38)
+	{
+	compteurL--;
+	}
+	if(code == 40)
+	{
+	 compteurL++;
+	}
+	if(code == 37)
+	{
+	 compteurC--;
+	}
+	draw(compteurC,compteurL);
+	if(compteurC == 58 && compteurL==48)
+	{
+	   var canvas = document.getElementById("canvas");
+       var ctx = canvas.getContext("2d"); 
+	   for(var i=0;i<60;i++)
+	   {
+	    ctx.fillStyle = "rgb(100,100,100)";
+        ctx.fillRect (140,3*i, 4, 2);
+		ctx.fillRect (145,3*i, 4, 2);
+	   }
+	  
+	}
+}
+
+function onclick_page(event)
+{
+  var x = Math.round((event.clientX-585)/796*49);
+  var y = Math.round((event.clientY-158)/750*59);
+ // alert('Vous avez cliqué au point de coordonnés: ' + x + ', ' + y );
+  var canvas = document.getElementById("canvas");
+  var ctx = canvas.getContext("2d");
+  ctx.fillStyle = "rgb(0,0,0)";
+  ctx.fillRect (5*x,3*y, 4, 2);
+}
+function travaux()
+{
+	alert("Cette partie est en travaux l'ami !! - retour à l'accueil !");
+	location.href = "page_accueil.html";
+			
+}	
+
+ </script>
+<div><FORM>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<INPUT type='button' value='Haut' onclick='move(56)'><BR><INPUT type='button' value='Gauche' onclick='move(52)'><INPUT type='button' value='Droite' onclick='move(54)'><BR>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<INPUT type='button' value='Bas' onclick='move(50)'></FORM></div>Vous devez vous rendre à la case verte
+
+</body>
+</html>
