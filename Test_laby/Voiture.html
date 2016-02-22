@@ -1,0 +1,177 @@
+<html><head>
+<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+  <title>Super Sprint</title>
+  <style>a{color:#fff;font-weight:bold;text-decoration:none;}</style>
+</head>
+<body onkeypress="clavier();" onkeydown="clavier();">
+  <center>
+   <div id="gameframe" style="width:300px;height:300px;background-color:green;">
+     <div id="game" style="position:relative;top:0;left:0;width:300px;height:300px;margin:0;padding:0;">  
+       <canvas id="circuit_board" width="300" height="300" style="z-index:1;position:absolute;top:0;left:0;margin:0;padding:0;"></canvas>
+       <canvas id="car_board" width="300" height="300" style="z-index:2;position:absolute;top:0;left:0;margin:0;padding:0;"></canvas>
+       <div style="z-index:3;position:absolute;top:100px;left:130px;color:white;font-weight:bold;font-family:Segoe UI,Calibri,Myriad Pro,Myriad,Trebuchet MS,Helvetica,Arial,sans-serif;">TOP<br><br><br>TOUR</div>
+       <div id="top" style="z-index:3;position:absolute;top:120;left:115;color:yellow;font-weight:bold;font-family:Segoe UI,Calibri,Myriad Pro,Myriad,Trebuchet MS,Helvetica,Arial,sans-serif;"></div>
+       <div id="chrono" style="z-index:3;position:absolute;top:185;left:115;color:yellow;font-weight:normal;font-family:Segoe UI,Calibri,Myriad Pro,Myriad,Trebuchet MS,Helvetica,Arial,sans-serif;"></div>
+     </div>
+   </div>
+ </center>
+ <script type="text/javascript">
+ var car_board_X = 300;
+ var car_board_Y = 300;
+var carX = 150-20; // position initiale X
+var carY = 255; // position initiale Y
+var carD = 0; // direction initiale
+var carS = 15; // vitesse initiale
+var carH = 15; // longueur voiture
+var carW = 5; // largeur voiture
+var roueL = 15; // largeur roue
+var roueD = 3; // diamètre roue
+var top_chrono = 999; // le meilleur tour
+var chrono_tour = 0; // le chrono pour chaque tour
+var tofa = null;
+var drapeau = null; // flag de passage sur la ligne
+var symetrie = null; // flag de passage à l'opposé de la ligne de départ
+
+function clavier(){
+  event.returnValue=false;
+  switch(event.keyCode)
+  {
+    case 37:carD -=4; if(carD<0) carD=359; break;
+    case 40:carS--; break;
+    case 39:carD +=4; if(carD>359) carD=0; break;
+    case 38:carS++; break;
+    default:return;
+  }
+}
+
+function dessine_circuit(){
+ var context = document.getElementById("circuit_board").getContext("2d");
+ context.clearRect(0, 0, car_board_X, car_board_Y);
+ context.fillStyle = "rgb(150,150,150)"; // Le gris du bitume
+ roundedRect(context,25,25,255,255 ,50);
+ context.fillStyle = "green"; // La pelouse
+ roundedRect(context,70,70,170,170,30);
+ context.fillStyle = "rgb(150,255,0)"; // Le vert de la ligne de départ
+ for(var i=148;i<155;i+=2)
+   for(var j=240;j<280;j+=2)
+     if((i+j)%3 == 1) context.fillRect(i,j,2,2); 
+ }
+
+ function movePlayer() {
+   carX += Math.cos(carD*2*Math.PI/360)*carS/20;
+   carY += Math.sin(carD*2*Math.PI/360)*carS/20;
+   var context = document.getElementById("car_board").getContext("2d");
+   context.clearRect(0, 0, car_board_X, car_board_Y);
+   context.save();
+   context.translate(carX+carH/2,carY+carW/2);
+   context.rotate( carD*2*Math.PI/360 );
+   context.translate(-carH/2,-carW/2);
+   context.beginPath();
+ // La carrosserie
+ context.fillStyle = "#FF0000";
+ context.fillRect(0, 0, carH, carW); 
+ // Les roues
+ context.fillStyle = "#000";
+ context.fillRect(0,carW, roueD, roueL); 
+ context.fillRect(0,-roueL, roueD, roueL); 
+ context.fillRect(2*carH/3,carW, roueD, roueL); 
+ context.fillRect(2*carH/3,-roueL, roueD, roueL); 
+ // Le casque
+ context.fillStyle = "#FFFF00";
+ context.arc(0.4*carH,carW/2,2, 0, .01, 1);
+ context.fill(); 
+ context.closePath();
+ context.restore();
+ // test de la sortie de route
+ var context = document.getElementById("circuit_board").getContext("2d");
+ // A l'avant de la voiture
+ var avant_droite = context.getImageData(carX+carH+1, carY, 1, 1).data;
+ var avant_centre = context.getImageData(carX+carH+1, carY+carW/2, 1, 1).data;
+ var avant_gauche = context.getImageData(carX+carH+1, carY+carW, 1, 1).data;
+ // A l'arrière de la voiture
+ var arriere_droite = context.getImageData(carX-1, carY+carW, 1, 1).data;
+ var arriere_centre = context.getImageData(carX-1, carY+carW/2, 1, 1).data;
+ var arriere_gauche = context.getImageData(carX-1, carY, 1, 1).data;
+ // Le test sur la composante rouge des pixels de la route
+ if( (avant_droite[0]!=150) ||
+   (avant_centre[0]!=150) ||  
+   (avant_gauche[0]!=150) ||  
+   (arriere_droite[0]!=150) ||  
+   (arriere_centre[0]!=150) ||  
+   (arriere_gauche[0]!=150) ){
+   // Rebond de la voiture
+ carX -= 6*(Math.cos(carD*2*Math.PI/360)*carS/20);
+ carY -= 6*(Math.sin(carD*2*Math.PI/360)*carS/20);
+ carD = 360 - carD + Math.floor(Math.random()*30) - Math.floor(Math.random()*30);
+ carS = -carS/4;   
+} 
+ // Gestion du chrono : passage sur la ligne de départ
+ if( Math.cos(carD*2*Math.PI/360)>0 && 
+   carS>0 && 
+   (carX+carH)>149 &&
+   (carX+carH)<155 && 
+   carY>150){
+   if(symetrie==null){
+     chrono_tour = 0;
+     if(tofa!=null)clearTimeout(tofa);
+     tofa = setTimeout("chrono()",100);
+   }else if(symetrie==1){
+     symetrie = 0;
+     if(chrono_tour<top_chrono){
+       top_chrono = chrono_tour;
+       document.getElementById("top").innerHTML = calculduree(top_chrono);
+     }      
+     chrono_tour = 0;
+     if(tofa!=null)clearTimeout(tofa);
+     tofa = setTimeout("chrono()",100);
+   }  
+ }
+ // Gestion du chrono : passage sur la ligne opposée au départ
+ if( Math.cos(carD*2*Math.PI/360)<0 && 
+   carS>0 && 
+   (carX+carH)>149 &&
+   (carX+carH)<155 && 
+   carY<150){
+   symetrie = 1;  
+}
+setTimeout("movePlayer()",10);
+}
+
+function calculduree(duree){
+ var addZero = function(v) { return v<10 ? "0" + v : v; };
+ var n = Math.floor(duree/10);
+ var dix = duree-10*n;
+ var heures=Math.floor(n/3600);
+ var reste = n - heures*3600;
+ var minutes=Math.floor(reste/60);
+ reste -= minutes*60;
+ return addZero(heures)+":"+addZero(minutes)+":"+addZero(reste)+"."+dix;
+}
+
+function roundedRect(ctx,x,y,width,height,radius){
+ ctx.beginPath();
+ ctx.moveTo(x,y+radius);
+ ctx.lineTo(x,y+height-radius);
+ ctx.quadraticCurveTo(x,y+height,x+radius,y+height);
+ ctx.lineTo(x+width-radius,y+height);
+ ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);
+ ctx.lineTo(x+width,y+radius);
+ ctx.quadraticCurveTo(x+width,y,x+width-radius,y);
+ ctx.lineTo(x+radius,y);
+ ctx.quadraticCurveTo(x,y,x,y+radius);
+ ctx.fill();
+}
+
+function chrono(){
+        // if(tofa!=undefined)clearTimeout(tofa);else tofa=undefined;
+        chrono_tour++;
+        document.getElementById("chrono").innerHTML = calculduree(chrono_tour);
+        tofa=setTimeout("chrono()",100);
+      }
+
+// On y va !
+dessine_circuit();
+document.getElementById("top").innerHTML = calculduree(top_chrono);
+movePlayer();
+</script>
+</body></html>
