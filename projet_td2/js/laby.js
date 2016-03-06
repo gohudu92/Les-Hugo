@@ -16,6 +16,7 @@ var exit_pos = [];		// sortie du labyrinthe
 var user_pos = [];		// position du joueur	
 var game_over = true;	//variable de gestion de la fin du jeu
 var compteBonus = 0;
+var compteTemps = 0;
 var positionBonus = new Array(5);
 var dim;
 var nbVie = 0;
@@ -31,7 +32,7 @@ var count=10;
 	if (count <= -1 || game_over)
 		{
 		game_over = true;
-		if(count<=-1){alert('Mauvais garçon => créer partie pour une nouvelle partie');}
+		if(!((user_pos[0] == exit_pos[0])&&(user_pos[1] == exit_pos[1]))){alert('Mauvais garçon => créer partie pour une nouvelle partie');}
 		clearInterval(chrono);
 		return;
 		}
@@ -64,7 +65,7 @@ function print_maze(a) {
 	
 	//document.getElementById(0+'_'+5).style.background = '#ffffff';
 	
-	while(compteBonus < dim)
+	while(compteBonus < dim*1.5)
 	{
 			var posX = Math.floor(Math.random() * (dim));
 			var posY = Math.floor(Math.random() * (dim));
@@ -77,6 +78,17 @@ function print_maze(a) {
 		
 	}
 	
+	while(compteTemps < (dim / 5))
+	{
+			var posX = Math.floor(Math.random() * (dim));
+			var posY = Math.floor(Math.random() * (dim));
+			console.log(posX,'+',posY);
+			if(document.getElementById(posX + "_" + posY).innerHTML == '')
+			{
+				document.getElementById(posX + "_" + posY).innerHTML = '<img src="img/temps.png" style="margin-top:10px;margin-left:5px;">'
+				compteTemps++;
+			}
+	}
 	
 	/*
 	// Dessiner les intersections
@@ -123,6 +135,7 @@ function main(){
 	clearInterval(chrono);
 	nbVie = 0;
 	compteBonus = 0;
+	compteTemps = 0;
 	var capasse = false;
 	// Récupération des variables saisies par l'utilisateur
 	var x = parseInt(document.getElementById("valX").value); //parseInt(document.querySelector('#x').value);
@@ -132,7 +145,7 @@ function main(){
 	dim = x;
 	puissance = Math.floor(dim/3);
 	creationTableau();
-	document.getElementById('puissance').innerHTML=puissance;
+	document.getElementById('puissance').innerHTML='nombre de puissance : '+puissance;
 	console.log(x+','+y);
 	// Enlever le footer pour avoir une zone de jeu plus grande :
 	//document.querySelector('footer').style.visibility='hidden';
@@ -152,6 +165,7 @@ function replay(){
 */
 function uniKeyCode(event) {
 	var key = event.keyCode;
+	
 	// - On peut se déplacer avec les touches directionnelles du clavier en respectant la règle de ne pas pouvoir franchir un mur.
     // N : 38, E : 39, S : 40, W : 37
 	// Si l'utilisateur utilise les touches de déplacement tandis que le jeu n'est pas en cours, on ne fait rien
@@ -193,20 +207,33 @@ function uniKeyCode(event) {
     		}
     		break;
 		case 72 :
-			if(nbVie >= puissance){capasse = true;
+			if(nbVie >= puissance)
+			{
+			capasse = true;
 			document.getElementById('user').style.background = 'green';
 			nbVie-=(puissance);
 			vie(nbVie);
 			}
 			break;
     }
-	if(!capasse){document.getElementById('user').style.background = 'blue';}
-	if(document.getElementById(user_pos[0]+"_"+user_pos[1]).innerHTML != '')
-	 {
+	if(!capasse)
+		{
+	if(nbVie >= puissance){document.getElementById('user').style.background= '#cc3300';}
+	else{document.getElementById('user').style.background = 'blue';}
+		}
+	//if(!capasse){document.getElementById('user').style.background = 'blue';}
+	if(document.getElementById(user_pos[0]+"_"+user_pos[1]).innerHTML == '<img src="img/piece.png" style="margin-top:10px;margin-left:5px;">')
+	{
 		document.getElementById(user_pos[0]+"_"+user_pos[1]).innerHTML = '';
 		nbVie++;
 		vie(nbVie);
-	 }
+	}
+	if(document.getElementById(user_pos[0]+"_"+user_pos[1]).innerHTML == '<img src="img/temps.png" style="margin-top:10px;margin-left:5px;">')
+	{
+		document.getElementById(user_pos[0]+"_"+user_pos[1]).innerHTML = '';
+		count+=5;
+	}
+	
 	
 	console.log(user_pos[0]+"_"+user_pos[1]);
 	
