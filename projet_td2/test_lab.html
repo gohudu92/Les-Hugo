@@ -1,0 +1,61 @@
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>PLAY aMAZin</title>
+	<link rel="stylesheet" type="text/css" href="laby.css">
+	<!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body onkeydown="uniKeyCode(event)">
+<div id="logo">
+	<img src="img/logo_top.png" alt="logo top">
+</div>
+<header>
+<nav>
+	<li><a href="page_accueil.html" title="ACCUEIL"> ACCUEIL</a></li>
+	<li><a href="page_creer_partie.html" title="RUN GAME"> RUN GAME</a></li>
+	<li><a href="page_rejoindre_partie.html" title="SEARCH GAME"> SEARCH GAME</a></li> 
+	<li><a href="page_rank.html" title="RANK"> RANK</a></li> 
+<nav>
+
+</header>
+
+<div id="scoreJoueur2">
+    <div class="joueur">Joueur 1
+	<br> Minute - Classement
+	<hr color="yellow">
+	</div>
+	<div class="joueur">Joueur 2
+	<br> Minute - Classement
+	<hr color="yellow">
+	</div>
+</div>
+
+	<div class="content" style="margin-top:40px;">
+	<div id="panel">
+		<button type="button" onclick="main()"> Créer partie </button>
+		<div id="timer"> TIMER </div>
+		<div id="puissance"> </div>
+		 <form method="post">
+            Dimension <br>
+            <select name="valX" id="valX">
+                <option value='5'>5</option>
+                <option value='8'>8</option>
+                <option value='10'>10</option>
+            </select>
+		</form>
+		<div id="vie">
+		
+		</div>
+	</div>
+		<div id="maze">
+
+		
+		</div>	
+	</div>
+		
+<script type="text/javascript" src="js/laby_model.js"></script>
+<script type="text/javascript" src="js/laby.js"></script>
+		
+</body>

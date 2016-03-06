@@ -1,28 +1,28 @@
 p:hover
 {
-   color:blue;
+	color:blue;
 }
 
 p1:hover
 {
-  color:black;
+	color:black;
 }
 
 .titre
 {
-  color:red;
+	color:red;
 }
 
 a:hover
 {
-  color:white;
+	color:white;
 }
 
 
 body
 {
- background-color : #c2d1f0;
- color : #1e3c7b;
+	background-color : #c2d1f0;
+	color : #1e3c7b;
 }
 
 
@@ -35,7 +35,6 @@ body
 nav 
 {
    display:flex;
-   
    background-color :  #ffcc80;
    border: 1px solid black;
 }
@@ -45,6 +44,7 @@ nav li
    display:inline;
    margin :auto;
 }
+
 
 nav li:hover
 {
@@ -99,8 +99,7 @@ TABLE
 
 #scoreJoueur
 {
-  display:inline-block;
-
+   display:inline-block;
    float:left;
    margin-left : 100px;
    margin-right:20px;
@@ -115,7 +114,6 @@ TABLE
 #scoreJoueur2
 {
   display:inline-block;
-
    float:left;
    margin-left : 100px;
    margin-right: 250px;
@@ -163,7 +161,7 @@ canvas
 { 
   margin-top : 20px;
   width : 800px;
-  height : 750px;
+  height : 800px;
   border:1px solid black;
 }
 
