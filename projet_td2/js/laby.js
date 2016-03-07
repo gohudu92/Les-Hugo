@@ -16,8 +16,11 @@ var exit_pos = [];		// sortie du labyrinthe
 var user_pos = [];		// position du joueur	
 var game_over = true;	//variable de gestion de la fin du jeu
 var nbMonstres ;
+var missile = true;
 
 
+var chrono2;
+var chrono3;
 var compteBonus = 0;
 var compteTemps = 0;
 var dim;
@@ -26,15 +29,36 @@ var capasse = false;
 var chrono;
 var pos_bot = [];
 var diff;
+var tireUltime;
 
 var count=10;
+
+	function theEnd(etat)
+	{
+		if(etat == 'win')
+		{
+			chrono3	= setInterval(timerVert,50);
+		}
+		else
+		{
+			chrono2	= setInterval(timerRouge,50);
+		}
+	}
+
+
+
+
 	function timer()
 	{
 	count=count-1;
 	if (count <= -1 || game_over)
 		{
 		game_over = true;
-		if(!((user_pos[0] == exit_pos[0])&&(user_pos[1] == exit_pos[1]))){alert('Mauvais garçon => créer partie pour une nouvelle partie');}
+		if(!((user_pos[0] == exit_pos[0])&&(user_pos[1] == exit_pos[1]))){ theEnd('lose');}
+		else
+		{
+			theEnd('win');
+		}
 		clearInterval(chrono);
 		return;
 		}
@@ -46,6 +70,8 @@ var count=10;
 	{
 	var botX = pos_bot[i*2];
 	var botY = pos_bot[(i*2)+1];
+	if(pos_bot[i*2] != 'o' && pos_bot[2*i+1] != 'o')
+	{
 	var next_pos = Math.floor(Math.random() * 4)+1;
 	console.log(next_pos);
 	switch (next_pos) {
@@ -77,6 +103,7 @@ var count=10;
 		}
 	}
 	}
+	}
 
 // Affichage du labyrinthe et de ses murs, et du joueur
 function print_maze(a) {
@@ -104,7 +131,7 @@ function print_maze(a) {
 	
 	//document.getElementById(0+'_'+5).style.background = '#ffffff';
 	
-	while(compteBonus < dim*(2+0.25	*diff))
+	while(compteBonus < dim*(2))
 	{
 			var posX = Math.floor(Math.random() * (dim));
 			var posY = Math.floor(Math.random() * (dim));
@@ -117,7 +144,7 @@ function print_maze(a) {
 		
 	}
 	
-	while(compteTemps < (dim / 5))
+	while(compteTemps < (dim / 3))
 	{
 			var posX = Math.floor(Math.random() * (dim));
 			var posY = Math.floor(Math.random() * (dim));
@@ -159,7 +186,7 @@ function print_maze(a) {
 		
 		pos_bot[i*2] = Math.floor(Math.random() * (dim));
 		pos_bot[(i*2)+1] = Math.floor(Math.random() * (dim));
-		while(document.getElementById(pos_bot[i*2]+'_'+pos_bot[(i*2)+1]).innerHTML !='')
+		while(document.getElementById(pos_bot[i*2]+'_'+pos_bot[(i*2)+1]).innerHTML !='' || pos_bot[(2*i)+1] < 1|| Math.abs(pos_bot[2*i]-user_pos[0]) < 1)
 		{
 			pos_bot[i*2] = Math.floor(Math.random() * (dim));
 			pos_bot[(i*2)+1] = Math.floor(Math.random() * (dim));
@@ -192,22 +219,28 @@ function main(){
 	diff = difficulte;
 	game_over = true;
 	clearInterval(chrono);
-	nbVie = 0;
+	clearInterval(chrono2);
+	clearInterval(chrono3);
+	// creationTableau();
 	compteBonus = 0;
 	compteTemps = 0;
-	
+	posFinX = 0;
+	posFinY =0;
 	var capasse = false;
 	// Récupération des variables saisies par l'utilisateur
 	var x = parseInt(document.getElementById("valX").value); //parseInt(document.querySelector('#x').value);
 	var y = parseInt(document.getElementById("valX").value); //parseInt(document.querySelector('#y').value);
 	count = Math.floor((x*1.5));
 	chrono = setInterval(timer,1000);
-	
 	dim = x;
+	count2=dim*dim;
+	tireUltime = Math.floor(dim/2);
 	nbMonstres = Math.floor(x/2)*difficulte;
 	puissance = Math.floor(dim/3);
 	creationTableau();
-	document.getElementById('puissance').innerHTML='nombre de puissance : '+puissance;
+	nbVie = tireUltime;
+	vie(nbVie);
+	document.getElementById('puissance').innerHTML='nombre de puissance : '+puissance+ ' / missile :'+tireUltime;
 	console.log(x+','+y);
 	// Enlever le footer pour avoir une zone de jeu plus grande :
 	//document.querySelector('footer').style.visibility='hidden';
@@ -271,13 +304,21 @@ function uniKeyCode(event) {
 		case 72 :
 			if(nbVie >= puissance)
 			{
-			capasse = true;
-			document.getElementById('user').style.background = 'green';
-			nbVie-=(puissance);
-			vie(nbVie);
+				capasse = true;
+				document.getElementById('user').style.background = 'green';
+				nbVie-=(puissance);
+				vie(nbVie);
 			}
 			break;
-    }
+		case 71 :
+			if(nbVie >= tireUltime)
+			{
+				missileDrop();
+				nbVie-=(tireUltime);
+				vie(nbVie);
+			}
+			break;
+		}
 	//if(!capasse){document.getElementById('user').style.background = 'blue';}
 	if(document.getElementById(user_pos[0]+"_"+user_pos[1]).innerHTML == '<img src="img/piece.png" style="margin-top:10px;margin-left:5px;">')
 	{
@@ -301,15 +342,16 @@ function uniKeyCode(event) {
 	
 	
 	// Vérifier les conditions de victoire
-	if ((user_pos[0] == exit_pos[0])&&(user_pos[1] == exit_pos[1])) { alert('FINIT Voila un gagnant temps restant ' + count +'secondes'); game_over = true;}
+	if ((user_pos[0] == exit_pos[0])&&(user_pos[1] == exit_pos[1])) { game_over = true;}
 	
 	for(var i=0;i<nbMonstres;i++)
 	{
 		if((user_pos[0] == pos_bot[i*2])&&(user_pos[1] == pos_bot[(i*2)+1])) { game_over = true;}
+		
 	}
-	
 
-}
+	}
+
 
 
 // Fonction générique d'affichage d'une modale pour la fin de la partie.
@@ -343,7 +385,7 @@ function show_modal(id,title){
 
 function vie(nb)
 {
-	for(var i=1;i<6;i++)
+	for(var i=1;i<dim+1;i++)
 	{
 		var image = document.getElementById('vie'+i);
 		var chemin = 'img/good.png';
@@ -353,6 +395,12 @@ function vie(nb)
 		}
 		image.src=chemin;
 	}
+	var pos = dim+2;
+	var image = document.getElementById('vie'+pos);
+	var chemin = 'img/missile_off.png';
+	if(nbVie >= tireUltime){chemin = 'img/missile_on.png';}
+	image.src = chemin;
+		
 	
 }
 
@@ -360,15 +408,113 @@ function vie(nb)
 function creationTableau()
 {
 	document.getElementById('vie').innerHTML = '';
-	for(var i=1;i<dim+1;i++)
+	for(var i=1;i<dim+2;i++)
 	{
 		var div = document.createElement('img');
 			div.setAttribute('id','vie'+i);
 			div.setAttribute('src','img/bad.png');
 			document.getElementById('vie').appendChild(div);
 	}
+	var chemin = 'img/missile_off.png';
+	var pos = dim+2;
+	div.setAttribute('id','vie'+pos);
+	div.setAttribute('src',chemin);
+	document.getElementById('vie').appendChild(div);
 	
 }
+
+function missileDrop()
+{
+		// var dimCarre = 1;
+		// var xCarre = user_pos[0]-dimCarre;
+		// var yCarre = user_pos[1]-dimCarre;
+		// for(var i=0;i<2*dimCarre+1;i++)
+		// {
+			// for(var j=0;j<2*dimCarre+1;j++)
+			// {
+				// var xLocal = xCarre+i;
+				// var yLocal = yCarre+j;
+				// if((xLocal >= 0 && xLocal <dim )&&(yLocal >= 0 && yLocal <dim ) && !(document.getElementById(xLocal+'_'+yLocal).innerHTML=='<img src="img/piece.png" style="margin-top:10px;margin-left:5px;">'))
+				// {
+					// document.getElementById(xLocal+'_'+yLocal).innerHTML='<img src="img/safe.png" style="margin-top:10px;margin-left:5px;">';
+				// }
+			// }
+		// }
+		var lePlusProche=dim*dim;
+		var indexPlusProche;
+		for(var i=0;i<nbMonstres;i++)
+		{
+			var distance = Math.sqrt((pos_bot[i*2]-user_pos[0])*(pos_bot[i*2]-user_pos[0])+(pos_bot[i*2+1]-user_pos[1])*(pos_bot[i*2+1]-user_pos[1]))
+			if (distance < lePlusProche)
+			{
+				lePlusProche = distance;
+				indexPlusProche = i;
+			}
+		}
+		console.log(lePlusProche+','+indexPlusProche);
+		var xloc = pos_bot[indexPlusProche*2];
+		var yloc = pos_bot[indexPlusProche*2+1];
+		document.getElementById(xloc+'_'+yloc).innerHTML = '';
+		document.getElementById(xloc+'_'+yloc).style.background = '#33cc33';
+		
+		
+		pos_bot[indexPlusProche*2] = 'o';
+		pos_bot[indexPlusProche*2+1] = 'o';
+			
+}
+
+var posFinX = 0;
+var posFinY =0;
+
+
+	var count2=dim*dim;
+	function timerRouge()
+	{
+	count2=count2-1;
+	if (count2 <= -1)
+		{
+		clearInterval(chrono2);
+		return;
+		}
+		
+	if(posFinX < dim)
+	{
+	document.getElementById(posFinX+'_'+posFinY).style.background = '#ff0000';
+	document.getElementById(posFinX+'_'+posFinY).innerHTML= "";
+	posFinY++;
+	if(posFinY == dim)
+		{
+		posFinY = 0;
+		posFinX++;
+		}
+		}
+	}
+	
+	function timerVert()
+	{
+		count2=count2-1;
+	if (count2 <= -1)
+		{
+		clearInterval(chrono3);
+		return;
+		}
+		
+	if(posFinX < dim)
+	{
+	document.getElementById(posFinX+'_'+posFinY).style.background = '#33cc33';
+	document.getElementById(posFinX+'_'+posFinY).innerHTML= "";
+	posFinY++;
+	if(posFinY == dim)
+		{
+		posFinY = 0;
+		posFinX++;
+		}
+		}
+		
+		
+	}
+
+
 
 // Gestion de la victoire
 /*
