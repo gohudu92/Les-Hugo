@@ -15,14 +15,16 @@ var entry_pos = [];		// entrée du labyrinthe
 var exit_pos = [];		// sortie du labyrinthe
 var user_pos = [];		// position du joueur	
 var game_over = true;	//variable de gestion de la fin du jeu
+
+
+
 var compteBonus = 0;
 var compteTemps = 0;
-var positionBonus = new Array(5);
 var dim;
 var nbVie = 0;
 var capasse = false;
 var chrono;
-
+var pos_bot = [];
 
 
 var count=10;
@@ -36,7 +38,41 @@ var count=10;
 		clearInterval(chrono);
 		return;
 		}
+		
 	document.getElementById('timer').innerHTML = count + ' Secondes';
+	
+	// partie BOT
+	var botX = pos_bot[0];
+	var botY = pos_bot[1];
+	var next_pos = Math.floor(Math.random() * 4)+1;
+	console.log(next_pos);
+	switch (next_pos) {
+    	case 1 : // W
+    		if ((!has_W_wall(laby[pos_bot[0]][pos_bot[1]]))) {
+    			pos_bot[1]--;
+    		}
+    		break;
+		case 2 : // N
+    		if ((!has_N_wall(laby[pos_bot[0]][pos_bot[1]]))) {
+    			pos_bot[0]--;
+    		}
+    		break;
+    	case 3 : // E
+    		if ((!has_E_wall(laby[pos_bot[0]][pos_bot[1]]))) {
+    			pos_bot[1]++;	
+    		}
+    		break;
+    	case 4: // S
+    		if ((!has_S_wall(laby[pos_bot[0]][pos_bot[1]])))	{
+    			pos_bot[0]++;
+    		}
+    		break;
+		}
+		if(botX != pos_bot[0] || botY != pos_bot[1])
+		{
+			document.getElementById(botX+'_'+botY).innerHTML = '';
+			document.getElementById(pos_bot[0]+'_'+pos_bot[1]).innerHTML = "<img src='img/bot.png' style='margin-top:10px;margin-left:5px;'>";
+		}
 	}
 
 // Affichage du labyrinthe et de ses murs, et du joueur
@@ -103,6 +139,7 @@ function print_maze(a) {
 	}
 	*/
 	
+	
 	// En début de partie, le joueur est matérialisé sur la cellule d’entrée du labyrinthe :
 	var user = document.createElement('div');
 	user.setAttribute('id','user');
@@ -113,6 +150,12 @@ function print_maze(a) {
 	for (i = 0; i < a.length && has_E_wall(a[i][a[0].length - 1]); i++);
 	document.getElementById(i + "_" + (a[0].length - 1)).style.backgroundColor = "#ff6666";
 	exit_pos = [i,a[0].length - 1];
+	
+	pos_bot[0] = Math.floor(Math.random() * (dim));
+	pos_bot[1] = Math.floor(Math.random() * (dim));
+	document.getElementById(pos_bot[0]+'_'+pos_bot[1]).innerHTML = "<img src='img/bot.png' style='margin-top:10px;margin-left:5px;'>";
+	
+	
 }
 
 // Lancement d'une partie
@@ -216,11 +259,6 @@ function uniKeyCode(event) {
 			}
 			break;
     }
-	if(!capasse)
-		{
-	if(nbVie >= puissance){document.getElementById('user').style.background= '#cc3300';}
-	else{document.getElementById('user').style.background = 'blue';}
-		}
 	//if(!capasse){document.getElementById('user').style.background = 'blue';}
 	if(document.getElementById(user_pos[0]+"_"+user_pos[1]).innerHTML == '<img src="img/piece.png" style="margin-top:10px;margin-left:5px;">')
 	{
@@ -234,13 +272,21 @@ function uniKeyCode(event) {
 		count+=5;
 	}
 	
+	if(!capasse)
+		{
+	if(nbVie >= puissance){document.getElementById('user').style.background= '#cc3300';}
+	else{document.getElementById('user').style.background = 'blue';}
+		}
 	
 	console.log(user_pos[0]+"_"+user_pos[1]);
 	
 	
 	// Vérifier les conditions de victoire
 	if ((user_pos[0] == exit_pos[0])&&(user_pos[1] == exit_pos[1])) { alert('FINIT Voila un gagnant temps restant ' + count +'secondes'); game_over = true;}
+	
+	if((user_pos[0] == pos_bot[0])&&(user_pos[1] == pos_bot[1])) { game_over = true;}
 }
+
 
 // Fonction générique d'affichage d'une modale pour la fin de la partie.
 function show_modal(id,title){
