@@ -15,7 +15,7 @@ var entry_pos = [];		// entrée du labyrinthe
 var exit_pos = [];		// sortie du labyrinthe
 var user_pos = [];		// position du joueur	
 var game_over = true;	//variable de gestion de la fin du jeu
-
+var nbMonstres ;
 
 
 var compteBonus = 0;
@@ -25,7 +25,7 @@ var nbVie = 0;
 var capasse = false;
 var chrono;
 var pos_bot = [];
-
+var diff;
 
 var count=10;
 	function timer()
@@ -42,37 +42,40 @@ var count=10;
 	document.getElementById('timer').innerHTML = count + ' Secondes';
 	
 	// partie BOT
-	var botX = pos_bot[0];
-	var botY = pos_bot[1];
+	for(var i=0;i<nbMonstres;i++)
+	{
+	var botX = pos_bot[i*2];
+	var botY = pos_bot[(i*2)+1];
 	var next_pos = Math.floor(Math.random() * 4)+1;
 	console.log(next_pos);
 	switch (next_pos) {
     	case 1 : // W
-    		if ((!has_W_wall(laby[pos_bot[0]][pos_bot[1]]))) {
-    			pos_bot[1]--;
+    		if ((!has_W_wall(laby[pos_bot[i*2]][pos_bot[(i*2)+1]]))) {
+    			pos_bot[(i*2)+1]--;
     		}
     		break;
 		case 2 : // N
-    		if ((!has_N_wall(laby[pos_bot[0]][pos_bot[1]]))) {
-    			pos_bot[0]--;
+    		if ((!has_N_wall(laby[pos_bot[i*2]][pos_bot[(i*2)+1]]))) {
+    			pos_bot[i*2]--;
     		}
     		break;
     	case 3 : // E
-    		if ((!has_E_wall(laby[pos_bot[0]][pos_bot[1]]))) {
-    			pos_bot[1]++;	
+    		if ((!has_E_wall(laby[pos_bot[i*2]][pos_bot[(i*2)+1]]))) {
+    			pos_bot[(i*2)+1]++;	
     		}
     		break;
     	case 4: // S
-    		if ((!has_S_wall(laby[pos_bot[0]][pos_bot[1]])))	{
-    			pos_bot[0]++;
+    		if ((!has_S_wall(laby[pos_bot[i*2]][pos_bot[(i*2)+1]])))	{
+    			pos_bot[i*2]++;
     		}
     		break;
 		}
-		if(botX != pos_bot[0] || botY != pos_bot[1])
+		if(botX != pos_bot[i*2] || botY != pos_bot[(i*2)+1])
 		{
 			document.getElementById(botX+'_'+botY).innerHTML = '';
-			document.getElementById(pos_bot[0]+'_'+pos_bot[1]).innerHTML = "<img src='img/bot.png' style='margin-top:10px;margin-left:5px;'>";
+			document.getElementById(pos_bot[i*2]+'_'+pos_bot[(i*2)+1]).innerHTML = "<img src='img/bot.png' style='margin-top:10px;margin-left:5px;'>";
 		}
+	}
 	}
 
 // Affichage du labyrinthe et de ses murs, et du joueur
@@ -101,7 +104,7 @@ function print_maze(a) {
 	
 	//document.getElementById(0+'_'+5).style.background = '#ffffff';
 	
-	while(compteBonus < dim*1.5)
+	while(compteBonus < dim*(2+0.25	*diff))
 	{
 			var posX = Math.floor(Math.random() * (dim));
 			var posY = Math.floor(Math.random() * (dim));
@@ -151,9 +154,19 @@ function print_maze(a) {
 	document.getElementById(i + "_" + (a[0].length - 1)).style.backgroundColor = "#ff6666";
 	exit_pos = [i,a[0].length - 1];
 	
-	pos_bot[0] = Math.floor(Math.random() * (dim));
-	pos_bot[1] = Math.floor(Math.random() * (dim));
-	document.getElementById(pos_bot[0]+'_'+pos_bot[1]).innerHTML = "<img src='img/bot.png' style='margin-top:10px;margin-left:5px;'>";
+	for(var i=0;i<nbMonstres;i++)
+	{
+		
+		pos_bot[i*2] = Math.floor(Math.random() * (dim));
+		pos_bot[(i*2)+1] = Math.floor(Math.random() * (dim));
+		while(document.getElementById(pos_bot[i*2]+'_'+pos_bot[(i*2)+1]).innerHTML !='')
+		{
+			pos_bot[i*2] = Math.floor(Math.random() * (dim));
+			pos_bot[(i*2)+1] = Math.floor(Math.random() * (dim));
+		}	
+		
+		document.getElementById(pos_bot[i*2]+'_'+pos_bot[(i*2)+1]).innerHTML ="<img src='img/bot.png' style='margin-top:10px;margin-left:5px;'>";
+	}
 	
 	
 }
@@ -174,18 +187,24 @@ function new_game(x,y,rep) {
 
 // Initialisation du labyrinthe
 function main(){
+	
+	var difficulte = parseInt(document.getElementById("diff").value);
+	diff = difficulte;
 	game_over = true;
 	clearInterval(chrono);
 	nbVie = 0;
 	compteBonus = 0;
 	compteTemps = 0;
+	
 	var capasse = false;
 	// Récupération des variables saisies par l'utilisateur
 	var x = parseInt(document.getElementById("valX").value); //parseInt(document.querySelector('#x').value);
 	var y = parseInt(document.getElementById("valX").value); //parseInt(document.querySelector('#y').value);
-	count = Math.floor(x);
+	count = Math.floor((x*1.5));
 	chrono = setInterval(timer,1000);
+	
 	dim = x;
+	nbMonstres = Math.floor(x/2)*difficulte;
 	puissance = Math.floor(dim/3);
 	creationTableau();
 	document.getElementById('puissance').innerHTML='nombre de puissance : '+puissance;
@@ -284,7 +303,12 @@ function uniKeyCode(event) {
 	// Vérifier les conditions de victoire
 	if ((user_pos[0] == exit_pos[0])&&(user_pos[1] == exit_pos[1])) { alert('FINIT Voila un gagnant temps restant ' + count +'secondes'); game_over = true;}
 	
-	if((user_pos[0] == pos_bot[0])&&(user_pos[1] == pos_bot[1])) { game_over = true;}
+	for(var i=0;i<nbMonstres;i++)
+	{
+		if((user_pos[0] == pos_bot[i*2])&&(user_pos[1] == pos_bot[(i*2)+1])) { game_over = true;}
+	}
+	
+
 }
 
 

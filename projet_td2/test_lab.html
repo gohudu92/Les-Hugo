@@ -34,15 +34,21 @@
 
 	<div class="content" style="margin-top:40px;">
 	<div id="panel">
-		<button type="button" onclick="main()"> Créer partie </button>
-		<div id="timer"> TIMER </div>
-		<div id="puissance"> </div>
+		<button type="button" onclick="main()" style="font-size:150%;"> Créer partie </button>
+		<div id="timer" style="font-size:200%;"> TIMER </div>
+		<div id="puissance" style="font-size:150%;"> </div>
 		 <form method="post">
-            Dimension <br>
-            <select name="valX" id="valX">
+            Dimension 
+            <select name="valX" id="valX" style="font-size:150%;">
                 <option value='5'>5</option>
                 <option value='8'>8</option>
                 <option value='10'>10</option>
+            </select>
+			 Difficulté 
+            <select name="diff" id="diff" style="font-size:150%;">
+                <option value='1'>easy</option>
+                <option value='2'>medium</option>
+                <option value='3'>hardcore</option>
             </select>
 		</form>
 		<div id="vie">
