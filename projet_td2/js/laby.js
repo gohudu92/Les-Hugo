@@ -17,7 +17,8 @@ var user_pos = [];		// position du joueur
 var game_over = true;	//variable de gestion de la fin du jeu
 var nbMonstres ;
 var missile = true;
-
+var level = 1;
+var resultatLevel;
 
 var chrono2;
 var chrono3;
@@ -37,13 +38,69 @@ var count=10;
 	{
 		if(etat == 'win')
 		{
+			
+			level++;
 			chrono3	= setInterval(timerVert,40);
 			document.getElementById('audio_win').play();
+			document.getElementById('audio_win').volume = 0.4;
+			
+			for(var j=0 ; j<dim ;j++)
+			{
+				if(j == 0)
+				{
+				document.getElementById(0+'_'+j).className = 'cell N W';		
+				}
+				else if(j == dim-1)
+				{
+				document.getElementById(0+'_'+j).className = 'cell N E';
+				}
+				else
+				{
+				document.getElementById(0+'_'+j).className = 'cell N';
+				}
+			}
 		}
+		
 		else
 		{
+			
+			resultatLevel = level;
+			level = 1;
 			chrono2	= setInterval(timerRouge,20);
 			document.getElementById('audio_lose').play();
+			document.getElementById('audio_lose').volume = 0.5;
+			
+			for(var k=0;k<3;k++)
+			{
+			for(var j=0 ; j<dim ;j++)
+			{
+				if(j == 0 && k == 0)
+				{
+					document.getElementById(k+'_'+j).className = 'cell N W';		
+				}
+				else if (j == 0)
+				{
+					document.getElementById(k+'_'+j).className = 'cell W';	
+				}
+				else if(j == dim-1 && k == 0)
+				{
+					document.getElementById(k+'_'+j).className = 'cell N E';
+				}
+				else if(j == dim-1)
+				{
+					document.getElementById(k+'_'+j).className = 'cell 	 E';
+				}
+				else if(k == 0)
+				{
+					document.getElementById(k+'_'+j).className = 'cell N';
+				}
+				else
+				{
+					document.getElementById(k+'_'+j).className = 'cell';
+				}
+			}
+		
+	}
 		}
 	}
 
@@ -220,7 +277,6 @@ function new_game(x,y,rep) {
 
 // Initialisation du labyrinthe
 function main(){
-	
 	var difficulte = parseInt(document.getElementById("diff").value);
 	document.getElementById('audio_win').pause();
 	document.getElementById('audio_lose').pause();
@@ -233,7 +289,7 @@ function main(){
 	compteBonus = 0;
 	compteTemps = 0;
 	posFinX = 0;
-	posFinY =0;
+	posFinY = 0;
 	var capasse = false;
 	// Récupération des variables saisies par l'utilisateur
 	var x = parseInt(document.getElementById("valX").value); //parseInt(document.querySelector('#x').value);
@@ -243,7 +299,7 @@ function main(){
 	dim = x;
 	count2=dim*dim;
 	tireUltime = Math.floor(dim/2);
-	nbMonstres = Math.floor(x/2)*difficulte;
+	nbMonstres = Math.floor(x/2)*(difficulte+level-1);
 	puissance = Math.floor(dim/3);
 	creationTableau();
 	nbVie = tireUltime;
@@ -252,9 +308,11 @@ function main(){
 	console.log(x+','+y);
 	// Enlever le footer pour avoir une zone de jeu plus grande :
 	//document.querySelector('footer').style.visibility='hidden';
-	// Lancement du jeu
-	new_game(x,y,game_over);	
+	// Lancement du jeu	
+	document.getElementById("level").innerHTML='Level :'+level;
+	new_game(x,y,game_over);
 	game_over = false;
+
 }
 
 // Ajout de la possibilité de rejouer la partie en cours (reset), qui repositionne le joueur sur la position d'entrée du même laby et réinitialise le compte à rebours
@@ -337,12 +395,22 @@ function uniKeyCode(event) {
 				}
 			}
 			break;
+			
+			case 82 :
+			{ 
+				//if (count>0) {level = 1};
+				main();
+				
+			}
+			break;
+			
 		}
 		
 	//if(!capasse){document.getElementById('user').style.background = 'blue';}
 	if(document.getElementById(user_pos[0]+"_"+user_pos[1]).innerHTML == '<img src="img/piece.png" style="margin-top:10px;margin-left:5px;">')
 	{
 		document.getElementById('audio_piece').play();
+		document.getElementById('audio_piece').volume = 0.1;
 		document.getElementById(user_pos[0]+"_"+user_pos[1]).innerHTML = '';
 		nbVie++;
 		vie(nbVie);
@@ -498,7 +566,12 @@ function missileDrop()
 
 var posFinX = 0;
 var posFinY =0;
+var posLV =0;
+var posSCORE =1;
 
+var posGAME = [0,1];
+var posOVER = [1,2];
+var posLvlFinal = [2,3];
 
 	var count2=dim*dim;
 	function timerRouge()
@@ -509,7 +582,64 @@ var posFinY =0;
 		clearInterval(chrono2);
 		return;
 		}
-		
+	if((count2%5)==0)
+	{
+	document.getElementById(0+'_'+posGAME[0]).innerHTML="";
+	document.getElementById(0+'_'+posGAME[1]).innerHTML="";
+	document.getElementById(1+'_'+posOVER[0]).innerHTML="";
+	document.getElementById(1+'_'+posOVER[1]).innerHTML="";	
+	document.getElementById(2+'_'+posLvlFinal[0]).innerHTML="";
+	document.getElementById(2+'_'+posLvlFinal[1]).innerHTML="";
+	
+	
+	posGAME[0]++;
+	posGAME[1]++;	
+	if(posGAME[0] == dim)
+	{
+		posGAME[0]=0;
+	}
+	if(posGAME[1] == dim)
+	{
+		posGAME[1] =0;
+	}
+	
+	posOVER[0]++;
+	posOVER[1]++;	
+	if(posOVER[0] == dim)
+	{
+		posOVER[0]=0;
+	}
+	if(posOVER[1] == dim)
+	{
+		posOVER[1] =0;
+	}	
+	
+	posLvlFinal[0]++;
+	posLvlFinal[1]++;	
+	if(posLvlFinal[0] == dim)
+	{
+		posLvlFinal[0]=0;
+	}
+	if(posLvlFinal[1] == dim)
+	{
+		posLvlFinal[1] =0;
+	}
+	
+	
+	document.getElementById(0+'_'+posGAME[0]).innerHTML= '<center style="color:#3333ff; font-size: 200%;">GA</center>';
+	document.getElementById(0+'_'+posGAME[1]).innerHTML= '<center style="color:#3333ff; font-size: 200%;">ME</center>';
+	
+	document.getElementById(1+'_'+posOVER[0]).innerHTML= '<center style="color:#3333ff; font-size: 200%;">OV</center>';
+	document.getElementById(1+'_'+posOVER[1]).innerHTML= '<center style="color:#3333ff; font-size: 200%;">ER</center>';
+	
+	document.getElementById(2+'_'+posLvlFinal[0]).innerHTML= '<center style="color:#3333ff; font-size: 200%;">LV</center>';
+	document.getElementById(2+'_'+posLvlFinal[1]).innerHTML= '<center style="color:#3333ff; font-size: 200%;">'+resultatLevel+'</center>';
+	}
+	
+	
+	
+	
+	
 	if(posFinX < dim)
 	{
 	document.getElementById(posFinX+'_'+posFinY).style.background = '#ff0000';
@@ -523,44 +653,77 @@ var posFinY =0;
 	}
 	}
 	
+
+	
+	
 	function timerVert()
 	{
-		count2=count2-1;
+	
+	count2=count2-1;
 	if (count2 <= -1)
 		{
 		clearInterval(chrono3);
+		main();
 		return;
 		}
 		
+	
+	if(count2%2 == 0)
+	{
+		
+	document.getElementById(0+'_'+posLV).innerHTML="";
+	document.getElementById(0+'_'+posSCORE).innerHTML="";
+	posLV++;
+	posSCORE++;	
+
+	if(posLV == dim)
+	{
+		posLV = 0;
+	}
+	if(posSCORE == dim)
+	{
+		posSCORE =0;
+	}
+	document.getElementById(0+'_'+posLV).innerHTML= '<center style="color:#3333ff; font-size: 200%;">LV</center>';
+	document.getElementById(0+'_'+posSCORE).innerHTML= '<center style="color:#3333ff; font-size: 200%;">'+level+'</center>';
+	}
+	
 	if(posFinX < dim)
 	{
 	document.getElementById(posFinX+'_'+posFinY).style.background = '#33cc33';
 	document.getElementById(posFinX+'_'+posFinY).innerHTML= "";
+	
 	posFinY++;
 	if(posFinY == dim)
 		{
 		posFinY = 0;
 		posFinX++;
 		}
-		}
 		
+	}
+	
+
 		
 	}
 
 	function changeClass()
 	{
 		document.getElementById('audio_canon').play();
+		document.getElementById('audio_canon').volume = 0.5;
 		var posBombeX = user_pos[0]-1;
 		var posBombeY = user_pos[1]-1;
-		if(posBombeX < 0) { posBombeX =0;}
-		if(posBombeY < 0) { posBombeY =0;}
+		if(posBombeX < 0) { posBombeX =	0;}
+		if(posBombeY < 0) { posBombeY =	0;}
 			
-		for(var i=posBombeX;i<posBombeX+3;i++)
+		for(var i=posBombeX;i<(posBombeX+3+(dim-8));i++)
 		{
-			for(var j=posBombeY;j<posBombeY+3;j++)
+			for(var j=posBombeY;j<(posBombeX+3+(dim-8));j++)
 			{
+				if(j <dim && i<dim)
+				{	
 				if(document.getElementById(i+'_'+j).innerHTML == '<img src="img/bot.png" style="margin-top:10px;margin-left:5px;">')
 				{
+					
 					for(var k=0;k<nbMonstres;k++)
 					{	
 						
@@ -572,6 +735,7 @@ var posFinY =0;
 						}
 					}
 				}
+			
 				var string ='cell';
 				if(j==0)
 				{
@@ -594,6 +758,7 @@ var posFinY =0;
 				if(i != user_pos[0] || j != user_pos[1]){document.getElementById(i+'_'+j).style.backgroundColor = ' #404040';}
 				else{document.getElementById(i+'_'+j).style.backgroundColor = ' #333333';}
 				laby[i][j] = 0;
+				}
 				
 			}
 		}

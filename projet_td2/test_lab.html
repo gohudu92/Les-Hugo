@@ -7,7 +7,7 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
 	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<audio id="audio_canon" src="mp3/son_canon.mp3"></audio>
-	<audio id="audio_piece" src="mp3/bip_piece.mp3"></audio>
+	<audio id="audio_piece" src="mp3/bip_piece_2.mp3"></audio>
 	<audio id="audio_win" src="mp3/son_win_2.mp3"></audio>
 	<audio id="audio_lose" src="mp3/son_lose.mp3"></audio>
 	<audio id="audio_fusil" src="mp3/son_fusil.mp3"></audio>
@@ -44,13 +44,14 @@
 		<button type="button" onclick="setInterval(timer2,10);" style="font-size:150%;"> générique </button>
 		<button type="button" onclick="changeClass();" style="font-size:150%;"> Peter mur</button>
 		<div id="timer" style="font-size:200%;"> TIMER </div>
+		<div id="level" style="font-size:200%;"> LEVEL </div>
 		<div id="puissance" style="font-size:150%;"> </div>
 		 <form method="post">
             Dimension 
             <select name="valX" id="valX" style="font-size:150%;">
-                <option value='5'>5</option>
                 <option value='8'>8</option>
                 <option value='10'>10</option>
+                <option value='12'>12</option>
             </select>
 			 Difficulté 
             <select name="diff" id="diff" style="font-size:150%;">
