@@ -203,8 +203,35 @@ function print_maze(a) {
 		maze.removeChild(maze.lastChild);
 	};
 	
+	
+	
+	/*
+	
+	document.getElementById('vie').innerHTML = '';
+	for(var i=1;i<dim+3;i++)
+	{
+		var div = document.createElement('img');
+			div.setAttribute('id','vie'+i);
+			div.setAttribute('src','img/bad.png');
+			document.getElementById('vie').appendChild(div);
+	}
+	var chemin = 'img/missile_off.png';
+	var pos = dim+4;
+	div.setAttribute('id','vie'+pos);
+	div.setAttribute('src',chemin);
+	document.getElementById('vie').appendChild(div);
+	
+	var chemin = 'img/bombe_off.png';
+	var pos = dim+5;
+	div.setAttribute('id','vie'+pos);
+	div.setAttribute('src',chemin);
+	document.getElementById('vie').appendChild(div);
+	
+	*/
+	
+	
 	// Appliquer au labyrinthe des styles selon les paramètres entrés par l'utilisateur
-	maze.setAttribute('style', 'width:' + (csz * a[0].length) + 'px; height:' + (csz * a.length) + 'px; left:0;');
+	maze.setAttribute('style', 'width:' + (csz * (a[0].length)) + 'px; height:' + (csz * a.length) + 'px; left:0;');
 	maze.setAttribute('class','maze');
 	for (i = 0; i < a.length; i++) {
 		for (j = 0; j < a[i].length; j++) {
@@ -284,6 +311,264 @@ function print_maze(a) {
 	
 	
 }
+
+function print_menu(a) {
+	//console.log("csz : " + csz + ", wsz : " + wsz);
+    var i, j;
+	var maze = document.querySelector('#maze');
+	
+	// Vider la div maze
+	while (maze.hasChildNodes()) {
+		maze.removeChild(maze.lastChild);
+	};
+	
+	maze.setAttribute('style', 'width:' + (csz * (a[0].length)) + 'px; height:' + (csz * a.length) + 'px; left:0;');
+	maze.setAttribute('class','maze');
+	for (i = 0; i < a.length; i++) {
+		for (j = 0; j < a[i].length; j++) {
+			var div = document.createElement('div');
+			div.setAttribute('id',i + "_" + j);
+			div.setAttribute('class','cell ' + css_cell_code(a[i][j]) );
+			div.setAttribute('style', ' top:'+ (csz * i) + '; left:' + (csz * j) + '; width:'+csz+'px; height:'+csz+'px; background-color : #3399ff;');
+			maze.appendChild(div);
+		}
+	}
+	
+	
+}
+
+var dimMenu = 10;
+var niveauDiff = 1;
+var milieu = Math.floor(dimMenu/2)
+var entete = ['M','E','N','U'];
+var posEnTete = [dimMenu-1,0,1,2];
+var indexSelect = 3;
+var enGame = false;
+var chronoMenu;
+
+var text1 = ['N','E','W'];
+var text1Pos = [milieu-3,milieu-2,milieu-1];
+
+var text2 = ['D','I','F','F'];
+var text2Pos = [milieu-4,milieu-3,milieu-2,milieu-1];
+
+var text2_2 = ['<',1,'>'];
+var text2_2Pos = [milieu+1,milieu+2,milieu+3];
+
+var text3 = ['D','I','M'];
+var text3Pos = [milieu-3,milieu-2,milieu-1];
+
+var text3_2 = ['<',10,'>'];
+var text3_2Pos = [milieu+1,milieu+2,milieu+3];
+
+var text4 = ['N','A','M','E'];
+var text4Pos = [milieu-4,milieu-3,milieu-2,milieu-1];
+
+var text5 = ['.','.','.','.','.','.'];
+var text5Pos = [milieu-3,milieu-2,milieu-1,milieu,milieu+1,milieu+2];
+var text5Compteur = 0;
+
+var text6 = ['Q','U','I','T'];
+var text6Pos = [milieu-4,milieu-3,milieu-2,milieu-1];
+
+
+function placementText(tabTexte,tabPos,Ligne)
+{
+		for(var i=0;i<tabTexte.length;i++)
+		{	
+			document.getElementById(Ligne+'_'+tabPos[i]).innerHTML = '<center style="color:#ffffff; font-size: 300%;">'+tabTexte[i]+'</center>';
+		}
+}
+
+function changeText(ligne,couleur)
+{
+	for(var i=0;i<dimMenu;i++)
+	{
+		document.getElementById(ligne+'_'+i).style.backgroundColor = couleur;
+	}
+}
+
+function onFaitLeVide()
+{
+	for(var i=3;i<dimMenu-1;i++)
+		for(var j=1;j<dimMenu-1;j++)
+		{
+			document.getElementById(i+'_'+j).className = "CELL";
+		}
+		
+	
+}
+
+function uniKeyCodeMenu(event) {
+	var key = event.keyCode;
+	var index = indexSelect;
+	if(!enGame){
+    switch (key) {
+    	case 38 : 	
+    		if(indexSelect > 3)
+			{
+				indexSelect--;
+			}
+			break;
+		case 40 :
+			if(indexSelect < 8)
+			{
+				indexSelect++;
+			}
+			break;
+		case 37 : 
+			if(indexSelect == 4 && text2_2[1]>0)
+			{
+				text2_2[1]--;
+				placementText(text2_2,text2_2Pos,4);
+			}
+			if(indexSelect == 5 && text3_2[1] > 8)
+			{
+				text3_2[1]--;
+				placementText(text3_2,text3_2Pos,5);
+			}
+			break;
+		case 39 : 
+			if(indexSelect == 4 && text2_2[1] < 3)
+			{
+				text2_2[1]++;
+				placementText(text2_2,text2_2Pos,4);
+			}
+			if(indexSelect == 5 &&  text3_2[1] < 10)
+			{
+				text3_2[1]++;
+				placementText(text3_2,text3_2Pos,5);
+			}
+			break;
+		case 72 :
+			if(indexSelect == 3)
+			{
+				enGame = true;
+				main2();
+			}
+			break;
+		}
+	
+	if(indexSelect==7 && key > 64 && key <91 && text5Compteur < 6)
+	{
+		text5[text5Compteur] = String.fromCharCode(key);
+		text5Compteur++;
+		placementText(text5,text5Pos,7);
+	}
+	if(indexSelect==7 && text5Compteur > -1 && key == 8)
+	{
+		text5Compteur--;
+		text5[text5Compteur]='.';
+		placementText(text5,text5Pos,7);
+	}
+	
+	
+	if(indexSelect == 6 && index == 5)
+	{
+		indexSelect =7;
+	}
+	
+	if(indexSelect == 6 && index == 7)
+	{
+		indexSelect =5;
+	}
+	
+	if(index != indexSelect)
+	{
+		changeText(index,'#3399ff');
+		changeText(indexSelect,'#000000');
+	}
+}
+}
+function main2(){
+	var difficulte = text2_2[1];
+	document.getElementById('audio_win').pause();
+	document.getElementById('audio_lose').pause();
+	diff = difficulte;
+	game_over = true;
+	clearInterval(chrono);
+	clearInterval(chrono2);
+	clearInterval(chrono3);
+	clearInterval(chronoBot);
+	// creationTableau();
+	compteBonus = 0;
+	compteTemps = 0;
+	posFinX = 0;
+	posFinY = 0;
+	var capasse = false;
+	// Récupération des variables saisies par l'utilisateur
+	var x = text3_2[1]; //parseInt(document.querySelector('#x').value);
+	var y = text3_2[1]; //parseInt(document.querySelector('#y').value);
+	count = Math.floor((x*1.5));
+	chrono = setInterval(timer,1000);
+	var vitesseMonstre = parseInt(document.getElementById("Vmonstre").value);
+	chronoBot = setInterval(timerBot,vitesseMonstre);
+	dim = x;
+	count2=dim*dim;
+	tireUltime = Math.floor(dim/2);
+	nbMonstres = Math.floor(x/2)*(difficulte+level-1);
+	puissance = Math.floor(dim/3);
+	creationTableau();
+	nbVie = tireUltime;
+	vie(nbVie);
+	document.getElementById('puissance').innerHTML='nombre de puissance : '+puissance+ ' / missile :'+tireUltime;
+	console.log(x+','+y);
+	// Enlever le footer pour avoir une zone de jeu plus grande :
+	//document.querySelector('footer').style.visibility='hidden';
+	// Lancement du jeu	
+	document.getElementById("level").innerHTML='Level :'+level;
+	new_game(x,y,game_over);
+	game_over = false;
+
+}
+
+function boucleEnTete()
+{
+	if(enGame)
+	{
+		clearInterval(chronoMenu);
+		return;
+	}
+	
+
+	for(var i = 0;i<posEnTete.length;i++)
+	{
+		document.getElementById(1+'_'+posEnTete[i]).innerHTML = '';
+		posEnTete[i]++;
+		if(posEnTete[i] == dimMenu)
+			{
+				posEnTete[i] = 0;
+			}	
+	}
+	
+	for(var i = 0;i<posEnTete.length;i++)
+	{
+		document.getElementById('1_'+posEnTete[i]).innerHTML = '<center style="color:#ffffff; font-size: 300%;">'+entete[i]+'</center>';
+	}
+	
+}
+
+function menu()
+{
+	enGame = false;
+	laby = new_2d_array(dimMenu, dimMenu);
+	init_2d_array(laby, 15);
+	dig(laby, 0, 0);
+	dig_ES(laby);
+	print_menu(laby);
+	onFaitLeVide();
+	chronoMenu = setInterval(boucleEnTete,200);
+	placementText(text1,text1Pos,3);
+	placementText(text2,text2Pos,4);
+	placementText(text2_2,text2_2Pos,4);
+	placementText(text3,text3Pos,5);
+	placementText(text3_2,text3_2Pos,5);
+	placementText(text4,text4Pos,6);
+	placementText(text5,text5Pos,7);
+	placementText(text6,text6Pos,8);
+	changeText(indexSelect,'#000000');
+}
+
 
 // Lancement d'une partie
 function new_game(x,y,rep) {
@@ -640,6 +925,7 @@ var posLvlFinal = [2,3];
 	if (count2 <= -1)
 		{
 		clearInterval(chrono2);
+		menu();
 		return;
 		}
 	if((count2%5)==0)

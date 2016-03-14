@@ -12,7 +12,7 @@
 	<audio id="audio_lose" src="mp3/son_lose.mp3"></audio>
 	<audio id="audio_fusil" src="mp3/son_fusil.mp3"></audio>
 </head>
-<body onkeydown="uniKeyCode(event)">
+<body onkeydown="uniKeyCode(event);uniKeyCodeMenu(event);">
 <div id="logo">
 	<img src="img/logo_top.png" alt="logo top">
 </div>
@@ -41,7 +41,7 @@
 	<div id="panel">
 		<button type="button" onclick="main()" style="font-size:150%;"> Créer partie </button>
 		<button type="button" onclick="missileDrop()" style="font-size:150%;"> missile </button>
-		<button type="button" onclick="transposeLaby()" style="font-size:150%;"> ca tourne </button>
+		<button type="button" onclick="menu()" style="font-size:150%;"> menu </button>
 		<div id="timer" style="font-size:200%;"> TIMER </div>
 		<div id="level" style="font-size:200%;"> LEVEL </div>
 		<div id="puissance" style="font-size:150%;"> </div>
