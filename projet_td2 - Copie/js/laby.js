@@ -365,7 +365,7 @@ var text4 = ['N','A','M','E'];
 var text4Pos = [milieu-4,milieu-3,milieu-2,milieu-1];
 
 var text5 = ['.','.','.','.','.','.'];
-var text5Pos = [milieu-3,milieu-2,milieu-1,milieu,milieu+1,milieu+2];
+var text5Pos = [milieu-2,milieu-1,milieu,milieu+1,milieu+2,milieu+3];
 var text5Compteur = 0;
 
 var text6 = ['Q','U','I','T'];
@@ -440,13 +440,14 @@ function uniKeyCodeMenu(event) {
 				placementText(text3_2,text3_2Pos,5);
 			}
 			break;
-		case 72 :
+		case 32 :
 			if(indexSelect == 3)
 			{
 				enGame = true;
 				main2();
 			}
-			break;
+			break;	
+		
 		}
 	
 	if(indexSelect==7 && key > 64 && key <91 && text5Compteur < 6)
@@ -455,7 +456,7 @@ function uniKeyCodeMenu(event) {
 		text5Compteur++;
 		placementText(text5,text5Pos,7);
 	}
-	if(indexSelect==7 && text5Compteur > -1 && key == 8)
+	if(indexSelect==7 && text5Compteur > 0 && key == 8)
 	{
 		text5Compteur--;
 		text5[text5Compteur]='.';
@@ -501,7 +502,7 @@ function main2(){
 	var y = text3_2[1]; //parseInt(document.querySelector('#y').value);
 	count = Math.floor((x*1.5));
 	chrono = setInterval(timer,1000);
-	var vitesseMonstre = parseInt(document.getElementById("Vmonstre").value);
+	var vitesseMonstre = 500;
 	chronoBot = setInterval(timerBot,vitesseMonstre);
 	dim = x;
 	count2=dim*dim;
@@ -633,6 +634,28 @@ function replay(){
 	main();
 }
 
+
+
+function escape()
+{
+	var couleur = '#3399ff';
+	if(!enPause){couleur = '#ddd'}
+	for(var i=0;i<dim;i++)
+	{
+		for(var j=0;j<dim;j++)
+		{
+			if (i != exit_pos[0] || j != exit_pos[1])
+			{
+				document.getElementById(i+'_'+j).style.backgroundColor = couleur;
+			}
+		}
+	}
+	
+	
+}
+
+
+var enPause = false;
 /*
  > Insérer le gameplay initial ­ La possibilité de se déplacer
 */
@@ -648,7 +671,7 @@ function uniKeyCode(event) {
     var user_style = document.getElementById("user").style;
     switch (key) {
     	case 37 : // W
-    		if ((!has_W_wall(laby[user_pos[0]][user_pos[1]]) || capasse)) {
+    		if (((!has_W_wall(laby[user_pos[0]][user_pos[1]]) || capasse )&& !enPause)) {
     			user_pos[1]--;
     			if(user_pos[1]>=0){user_style.left = (csz * user_pos[1]) + "px";}
 				else{user_pos[1]++;}
@@ -656,7 +679,7 @@ function uniKeyCode(event) {
     		}
     		break;
 		case 38 : // N
-    		if ((!has_N_wall(laby[user_pos[0]][user_pos[1]]) || capasse)) {
+    		if (((!has_N_wall(laby[user_pos[0]][user_pos[1]]) || capasse) && !enPause)) {
     			user_pos[0]--;
     			if(user_pos[0]>=0){user_style.top = (csz * user_pos[0]) + "px";}
 				else{user_pos[0]++;}
@@ -664,7 +687,7 @@ function uniKeyCode(event) {
     		}
     		break;
     	case 39 : // E
-    		if ((!has_E_wall(laby[user_pos[0]][user_pos[1]]) || capasse)) {
+    		if (((!has_E_wall(laby[user_pos[0]][user_pos[1]]) || capasse) && !enPause)) {
     			user_pos[1]++;
     			if(user_pos[1]<dim){user_style.left = (csz * user_pos[1]) + "px";}
 				else{user_pos[1]--;}
@@ -672,7 +695,7 @@ function uniKeyCode(event) {
     		}
     		break;
     	case 40 : // S
-    		if ((!has_S_wall(laby[user_pos[0]][user_pos[1]]) || capasse)) {
+    		if (((!has_S_wall(laby[user_pos[0]][user_pos[1]]) || capasse) && !enPause)) {
     			user_pos[0]++;
     			if(user_pos[0]<dim){user_style.top = (csz * user_pos[0]) + "px";}
 				else{user_pos[0]--;}
@@ -680,7 +703,7 @@ function uniKeyCode(event) {
     		}
     		break;
 		case 72 :
-			if(nbVie >= puissance)
+			if(nbVie >= puissance && !enPause)
 			{
 				capasse = true;
 				document.getElementById('user').style.background = 'green';
@@ -689,7 +712,7 @@ function uniKeyCode(event) {
 			}
 			break;
 		case 71 :
-			if(nbVie >= tireUltime)
+			if(nbVie >= tireUltime && !enPause)
 			{
 				missileDrop();
 				nbVie-=(tireUltime);
@@ -699,7 +722,7 @@ function uniKeyCode(event) {
 			break;
 		
 			case 74 :
-			{ if(nbVie >= dim)
+			{ if(nbVie >= dim && !enPause)
 				{
 				changeClass();
 				nbVie-=(dim);
@@ -715,7 +738,19 @@ function uniKeyCode(event) {
 				
 			}
 			break;
-			
+			case 27 :
+			{
+				clearInterval(chrono);
+				clearInterval(chronoBot);
+				enPause = !enPause;
+				escape();
+				if(!enPause)
+				{
+					chrono = setInterval(timer,1000);
+					chronoBot = setInterval(timerBot,500);
+				}
+			}
+			break;
 		}
 		
 	//if(!capasse){document.getElementById('user').style.background = 'blue';}
@@ -729,7 +764,7 @@ function uniKeyCode(event) {
 	}
 	if(document.getElementById(user_pos[0]+"_"+user_pos[1]).innerHTML == '<img src="img/temps.png" style="margin-top:10px;margin-left:5px;">')
 	{
-		document.getElementById(user_pos[0]+"_"+user_pos[1]).inner	 = '';
+		document.getElementById(user_pos[0]+"_"+user_pos[1]).innerHTML= '';
 		count+=5;
 	}
 	
@@ -1017,7 +1052,7 @@ var posLvlFinal = [2,3];
 	if (count2 <= -1)
 		{
 		clearInterval(chrono3);
-		main();
+		main2();
 		return;
 		}
 		

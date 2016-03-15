@@ -12,7 +12,7 @@
 	<audio id="audio_lose" src="mp3/son_lose.mp3"></audio>
 	<audio id="audio_fusil" src="mp3/son_fusil.mp3"></audio>
 </head>
-<body onkeydown="uniKeyCode(event);uniKeyCodeMenu(event);">
+<body onkeydown="uniKeyCode(event);uniKeyCodeMenu(event);" onload="menu();">
 <div id="logo">
 	<img src="img/logo_top.png" alt="logo top">
 </div>
@@ -39,32 +39,10 @@
 
 	<div class="content" style="margin-top:40px;">
 	<div id="panel">
-		<button type="button" onclick="main()" style="font-size:150%;"> Créer partie </button>
-		<button type="button" onclick="missileDrop()" style="font-size:150%;"> missile </button>
-		<button type="button" onclick="menu()" style="font-size:150%;"> menu </button>
 		<div id="timer" style="font-size:200%;"> TIMER </div>
 		<div id="level" style="font-size:200%;"> LEVEL </div>
 		<div id="puissance" style="font-size:150%;"> </div>
-		 <form method="post">
-            Dimension 
-            <select name="valX" id="valX" style="font-size:150%;">
-                <option value='8'>8</option>
-                <option value='10'>10</option>
-                <option value='12'>12</option>
-            </select>
-			 Difficulté 
-            <select name="diff" id="diff" style="font-size:150%;">
-                <option value='1'>easy</option>
-                <option value='2'>medium</option>
-                <option value='3'>hardcore</option>
-            </select>
-			Vitesse monstre 
-			<select name="Vmonstre" id="Vmonstre" style="font-size:150%;">
-                <option value='500'>x1</option>
-                <option value='250'>x2</option>
-                <option value='125'>x4</option>
-            </select>
-		</form>
+
 		<div id="vie">
 		
 		</div>
