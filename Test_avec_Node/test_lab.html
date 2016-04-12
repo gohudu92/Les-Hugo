@@ -1,0 +1,78 @@
+<html> 
+<head>
+	<meta charset="utf-8"/>
+	<title>labyrinthe des hugo</title>
+	<link rel="stylesheet" type="text/css" href="laby.css">
+	<!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<audio id="audio_canon" src="mp3/son_canon.mp3"></audio>
+	<audio id="audio_piece" src="mp3/bip_piece_2.mp3"></audio>
+	<audio id="audio_win" src="mp3/son_win_2.mp3"></audio>
+	<audio id="audio_lose" src="mp3/son_lose.mp3"></audio>
+	<audio id="audio_fusil" src="mp3/son_fusil.mp3"></audio>
+</head>
+<body onkeydown="uniKeyCode(event);uniKeyCodeMenu(event);" onload="menu();">
+
+
+<!-- 	<div class="content" style="margin-top:40px;">
+	<div id="logo">
+	<img src="img/logo_top.png" alt="logo top">
+</div>
+<header>
+<nav>
+	<li><a href="page_accueil.html" title="ACCUEIL"> ACCUEIL</a></li>
+	<li><a href="page_creer_partie.html" title="RUN GAME"> RUN GAME</a></li>
+	<li><a href="page_rejoindre_partie.html" title="SEARCH GAME"> SEARCH GAME</a></li> 
+	<li><a href="page_rank.html" title="RANK"> RANK</a></li> 
+<nav>
+
+</header> -->
+
+<!-- <div id="scoreJoueur2">
+    <div class="joueur">Joueur 1
+	<br> Minute - Classement
+	<hr color="yellow">
+	</div>
+	<div class="joueur">Joueur 2
+	<br> Minute - Classement
+	<hr color="yellow">
+	</div>
+</div> -->
+
+	<div id = "contour">
+	<div id="panel">
+		<div id="timer" style="font-size:200%; float:left;"> TIMER </div>
+		<div id="level" style="font-size:200%;  "> - LEVEL </div>
+		<div id="puissance" style="font-size:150%;"> nombre de puissance :  / missile :</div>
+
+		<div id="vie">
+		
+		</div>
+	</div>
+		<div id="maze">
+
+		
+			</div>	
+		<div id="zone_button">
+		<div id="bar">
+		<img src='img/logo_top.png'>
+		</div>
+		
+		<div id="button_gauche">
+		<button type="button" class="bouton16"> Accueil </button>
+		<button type="button" class="bouton17" onclick="menu();"> Game </button>
+			
+		</div>
+		<div id="button_droit">
+		<button type="button" class="bouton18" onclick="print_score(laby);"> Score </button>
+		<button type="button" class="bouton19" onclick="print_rules(laby);"> Rules </button>
+		</div>
+		
+		
+		</div>
+	</div>
+<script type="text/javascript" src="js/laby_model.js"></script>
+<script type="text/javascript" src="js/laby.js"></script>
+		
+</body>

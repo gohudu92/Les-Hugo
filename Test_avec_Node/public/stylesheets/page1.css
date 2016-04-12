@@ -1,0 +1,174 @@
+p:hover
+{
+	color:blue;
+}
+
+p1:hover
+{
+	color:black;
+}
+
+.titre
+{
+	color:red;
+}
+
+a:hover
+{
+	color:white;
+    text-decoration: none;
+}
+
+
+body
+{
+	background-color : #c2d1f0;
+	color : #1e3c7b;
+}
+
+
+#logo
+{
+   text-align:center;
+}
+
+
+nav 
+{
+   display:flex;
+   background-color :  #ffcc80;
+   border: 1px solid black;
+   margin :auto;
+}
+
+nav:hover
+{
+    text-decoration: none;
+}
+
+nav li
+{
+   display:inline;
+   margin :auto;
+}
+
+
+nav li:hover
+{
+   color:white;
+}
+
+#corps
+{
+   margin:0 auto;
+   width:800px;
+}
+
+
+#RANK
+{
+   display:inline-block;
+   width : 50%; 
+   margin-left : 450px; 
+   margin-top:100px;
+   text-align: center;
+   border: 1px solid black;
+   background-color : #49c83c;
+   /*float:left;
+   margin-left : 700px;
+   margin-right:25px;
+   margin-top:200px;
+   border: 1px solid black;
+   width: 200px;
+   height: 750px;
+   background-color : #49c83c;
+   */
+}
+
+TABLE
+{
+  margin-top:150px;
+  font-size: 200%;
+  width:750px ;
+  height: 500px;
+  text-align:center;
+  background-color:   #49c83c; 
+}
+
+
+#principal
+{
+  margin-top: 100px;
+  margin-left: 400px;
+  height: 800px;
+  width: 1000px;
+}
+
+#scoreJoueur
+{
+   display:inline-block;
+   float:left;
+   margin-left : 100px;
+   margin-right:20px;
+   margin-top:20px;
+   border: 1px solid black;
+   width: 200px;
+   height: 750px;
+   background-color : #49c83c;
+}
+
+
+#scoreJoueur2
+{
+  display:inline-block;
+   float:left;
+   margin-left : 100px;
+   margin-right: 250px;
+   margin-top:20px;
+   border: 1px solid black;
+   width: 200px;
+   height: 750px;
+   background-color : #49c83c;
+}
+
+
+
+.joueur
+{
+    text-align:center;
+	margin-top:10px;
+}
+
+#labyrinthe
+{
+  display:inline-block;
+  margin-top: 20px;
+  margin-bottom : 40px;
+  border: 1px solid black;
+  margin-left : 750px;
+  width : 800px;
+  height : 800px;
+}
+
+#photo_lab
+{
+  display:inline-block;
+  margin-top:150px; 
+  margin-left:150px;
+
+}
+
+#photo_lab img
+{
+  height: 500px;
+  width: 500px; 
+}
+
+canvas
+{ 
+  margin-top : 20px;
+  width : 800px;
+  height : 800px;
+  border:1px solid black;
+}
+
