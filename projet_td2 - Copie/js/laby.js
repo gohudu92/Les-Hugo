@@ -238,7 +238,7 @@ function print_maze(a) {
 			var div = document.createElement('div');
 			div.setAttribute('id',i + "_" + j);
 			div.setAttribute('class','cell ' + css_cell_code(a[i][j]) );
-			div.setAttribute('style', ' top:'+ (csz * i) + '; left:' + (csz * j) + '; width:'+csz+'px; height:'+csz+'px;');
+			div.setAttribute('style', ' top:'+ (csz * i) + '; left:' + (csz * j) + '; width:'+csz+'px; height:'+csz+'px;	background-color:#ffffff;');
 			maze.appendChild(div);
 		}
 	}
@@ -316,7 +316,8 @@ function print_menu(a) {
 	//console.log("csz : " + csz + ", wsz : " + wsz);
     var i, j;
 	var maze = document.querySelector('#maze');
-	
+	dim = 10;
+	creationTableau();
 	// Vider la div maze
 	while (maze.hasChildNodes()) {
 		maze.removeChild(maze.lastChild);
@@ -336,6 +337,86 @@ function print_menu(a) {
 	
 	
 }
+
+var scoreNom = ['j1','j2','j3','j4','j5','j6'];
+var scoreResult = [1,10,5,8,9,10];
+
+function message(chaine,positionX,positionY)
+{
+	for(var i=positionY;i<chaine.length+positionY;i++)
+	{
+		document.getElementById(positionX+'_'+i).innerHTML = '<center style="color:#ffffff; font-size: 250%;">'+chaine[i-positionY]+'</center>';
+		document.getElementById(positionX+'_'+i).className = 'CELL';
+	}
+}
+
+
+function print_score(a) {
+	enGame = true;
+	//console.log("csz : " + csz + ", wsz : " + wsz);
+    var i, j;
+	var maze = document.querySelector('#maze');
+	// Vider la div maze
+	while (maze.hasChildNodes()) {
+		maze.removeChild(maze.lastChild);
+	};
+	
+	maze.setAttribute('style', 'width:' + (csz * (a[0].length)) + 'px; height:' + (csz * a.length) + 'px; left:0;');
+	maze.setAttribute('class','maze');
+	for (i = 0; i < a.length; i++) {
+		for (j = 0; j < a[i].length; j++) {
+			var div = document.createElement('div');
+			div.setAttribute('id',i + "_" + j);
+			div.setAttribute('class','cell ' + css_cell_code(a[i][j]) );
+			div.setAttribute('style', ' top:'+ (csz * i) + '; left:' + (csz * j) + '; width:'+csz+'px; height:'+csz+'px; background-color : #3399ff;');
+			maze.appendChild(div);
+		}
+	}
+	
+	message('score',1,2);
+	maj_score();
+	
+}
+
+function print_rules(a) {
+	enGame = true;
+	//console.log("csz : " + csz + ", wsz : " + wsz);
+    var i, j;
+	var maze = document.querySelector('#maze');
+	// Vider la div maze
+	while (maze.hasChildNodes()) {
+		maze.removeChild(maze.lastChild);
+	};
+	
+	maze.setAttribute('style', 'width:' + (csz * (a[0].length)) + 'px; height:' + (csz * a.length) + 'px; left:0;');
+	maze.setAttribute('class','maze');
+	for (i = 0; i < a.length; i++) {
+		for (j = 0; j < a[i].length; j++) {
+			var div = document.createElement('div');
+			div.setAttribute('id',i + "_" + j);
+			div.setAttribute('class','cell ' + css_cell_code(a[i][j]) );
+			div.setAttribute('style', ' top:'+ (csz * i) + '; left:' + (csz * j) + '; width:'+csz+'px; height:'+csz+'px; background-color : #3399ff;');
+			maze.appendChild(div);
+		}
+	}
+	
+	message('RULES',1,2);
+	message('H:sauter',2,1);
+	message('G:tir',3,1);
+	message('J:bombe',4,1);
+	message('Fleche:dir',5,0);
+	
+}
+
+function maj_score()
+{
+	for(var i=3;i<9;i++)
+	{
+		message(scoreNom[i-3]+'  '+scoreResult[i-3],i,2);
+	}	
+}
+
+
 
 var dimMenu = 10;
 var niveauDiff = 1;
@@ -440,7 +521,7 @@ function uniKeyCodeMenu(event) {
 				placementText(text3_2,text3_2Pos,5);
 			}
 			break;
-		case 32 :
+		case 13 :
 			if(indexSelect == 3)
 			{
 				enGame = true;
@@ -517,7 +598,7 @@ function main2(){
 	// Enlever le footer pour avoir une zone de jeu plus grande :
 	//document.querySelector('footer').style.visibility='hidden';
 	// Lancement du jeu	
-	document.getElementById("level").innerHTML='Level :'+level;
+	document.getElementById("level").innerHTML='- Level :'+level;
 	new_game(x,y,game_over);
 	game_over = false;
 
@@ -551,6 +632,7 @@ function boucleEnTete()
 
 function menu()
 {
+	clearInterval(chronoMenu);
 	enGame = false;
 	laby = new_2d_array(dimMenu, dimMenu);
 	init_2d_array(laby, 15);
@@ -625,7 +707,6 @@ function main(){
 	document.getElementById("level").innerHTML='Level :'+level;
 	new_game(x,y,game_over);
 	game_over = false;
-
 }
 
 // Ajout de la possibilité de rejouer la partie en cours (reset), qui repositionne le joueur sur la position d'entrée du même laby et réinitialise le compte à rebours
@@ -868,7 +949,7 @@ function creationTableau()
 	div.setAttribute('id','vie'+pos);
 	div.setAttribute('src',chemin);
 	document.getElementById('vie').appendChild(div);
-	
+	//document.getElementById('zone_button').style.height = '20%';
 }
 
 function missileDrop()
