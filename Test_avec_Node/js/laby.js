@@ -32,6 +32,7 @@ var chrono;
 var pos_bot = [];
 var diff;
 var tireUltime;
+var score = 0;
  
 var count=10;
 
@@ -41,6 +42,7 @@ var count=10;
 		{
 			
 			level++;
+			score += level*100 + count;
 			chrono3	= setInterval(timerVert,40);
 			document.getElementById('audio_win').play();
 			document.getElementById('audio_win').volume = 0.4;
@@ -525,6 +527,7 @@ function uniKeyCodeMenu(event) {
 			if(indexSelect == 3)
 			{
 				enGame = true;
+				score =0;
 				main2();
 			}
 			break;	
@@ -598,7 +601,8 @@ function main2(){
 	// Enlever le footer pour avoir une zone de jeu plus grande :
 	//document.querySelector('footer').style.visibility='hidden';
 	// Lancement du jeu	
-	document.getElementById("level").innerHTML='- Level :'+level;
+	document.getElementById("level").innerHTML='- Level :'+level ;
+	document.getElementById("score").innerHTML='- Score :'+score;
 	new_game(x,y,game_over);
 	game_over = false;
 
