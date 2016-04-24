@@ -33,7 +33,7 @@ var pos_bot = [];
 var diff;
 var tireUltime;
 var score = 0;
- 
+
 var count=10;
 
 	function theEnd(etat)
@@ -601,7 +601,7 @@ function main2(){
 	// Enlever le footer pour avoir une zone de jeu plus grande :
 	//document.querySelector('footer').style.visibility='hidden';
 	// Lancement du jeu	
-	document.getElementById("level").innerHTML='- Level :'+level ;
+	document.getElementById("level").innerHTML='- Level :'+level;
 	document.getElementById("score").innerHTML='- Score :'+score;
 	new_game(x,y,game_over);
 	game_over = false;
@@ -637,6 +637,9 @@ function boucleEnTete()
 function menu()
 {
 	clearInterval(chronoMenu);
+	clearInterval(chrono);
+	clearInterval(chronoBot);
+	level = 1;
 	enGame = false;
 	laby = new_2d_array(dimMenu, dimMenu);
 	init_2d_array(laby, 15);

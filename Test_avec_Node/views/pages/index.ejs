@@ -12,24 +12,24 @@
             <div class="index">
                 <h1>Principe du jeu</h1>
                 <p>En début de partie, le joueur est matérialisé sur la cellule d’entrée du labyrinthe.</p>
-                <p>Il peut se déplacer avec les touches directionnelles du clavier, mais ne peut pas franchir les murs.</p>
+                <p>Il peut se déplacer avec les touches directionnelles du clavier.</p>
                 <p>Lorsque le joueur parvient à la sortie, ou que le temps est écoulé, cela déclenche la fin de partie.</p>
             </div>
             <!--if (!user)-->
             <form action="/login" class="form-signin" method="post">
-                <h2 class="form-signin-heading">Log in</h2>
+                <h2 class="form-signin-heading">Se connecter</h2>
                 <label for="inputUsername" class="sr-only">User name</label>
-                <input name="username" type="text" id="inputUsername" class="form-control" placeholder="User name" required autofocus>
+                <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Pseudo" required autofocus>
                 <label for="inputPassword" class="sr-only">Password</label>
-                <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Mot de Passe" required>
                 <div class="checkbox">
                     <label>
-                        <input name="remember" type="checkbox" value="remember-me"> Remember me
+                        <input name="remember" type="checkbox" value="remember-me"> Se souvenir de moi
                     </label>
                 </div>
-                <button class="btn btn-lg btn-success btn-block" type="submit">Log in</button>
+                <button class="btn btn-lg btn-success btn-block" type="submit">Connexion</button>
             </form>
-            <p>Don't have an account yet? <a href="/signup">Register</a> instead</p>
+            <p>Pas encore inscris ? <a href="/signup">Inscrivez-vous</a>.</p>
            
             <ul id="list"></ul>
         </div> <!-- /container -->
