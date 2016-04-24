@@ -1,1 +1,3 @@
-
+- TP1 : Création du site, des pages, de leurs structure, de la bannière. Commencement du javascript (canvas). Toutes les pages communiquent entre elles.
+- TP2-3 : Création du labyrinthe et dynamisation du site.
+- TP4-5 : Intégration de Node et Mongo, création des comptes etc...
